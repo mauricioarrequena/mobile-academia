@@ -1,13 +1,20 @@
-import {TMDB_API_KEY, TMDB_URL} from '@env';
+import {TMDB_URL, TMDB_ACCESS_TOKEN} from '@env';
 import axios from 'axios';
 
 export const getPopularMovies = async () => {
   try {
-    const response = await axios.get(
-      `${TMDB_URL}/movie/popular?api_key=${TMDB_API_KEY}&language=en-US&page=1`,
-    );
+    const response = await axios.get(`${TMDB_URL}/movie/popular`, {
+      headers: {
+        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
+        Accept: 'application/json',
+      },
+      params: {
+        langauge: 'en-US',
+        page: 1,
+      },
+    });
 
-    return response.data;
+    return response.data.results;
   } catch (error) {
     console.error(`there was an error in getPopularMovies ${error}`);
   }
