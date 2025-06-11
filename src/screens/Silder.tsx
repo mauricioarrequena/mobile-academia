@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {getPopularMovies} from '../utils/TMDBService';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 5,
+    gap: 10,
     borderWidth: 1,
     borderColor: '#000',
   },
@@ -48,8 +49,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
-
 export default function Silder() {
+  const handleOnPressApi = async () => {
+    try {
+      const movies = await getPopularMovies();
+      console.log(movies);
+    } catch (error) {
+      console.error('TMDB error:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -65,6 +74,12 @@ export default function Silder() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} activeOpacity={0.7}>
           <Text style={styles.text}>details</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.7}
+          onPress={handleOnPressApi}>
+          <Text style={styles.text}>call the api</Text>
         </TouchableOpacity>
       </View>
     </View>
