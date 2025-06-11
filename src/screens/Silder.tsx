@@ -51,17 +51,12 @@ const styles = StyleSheet.create({
 });
 export default function Silder() {
   const handleOnPressApi = async () => {
-    const movies = await getPopularMovies();
-    console.log(movies);
-
-    // try {
-    //   const response = await axios.get(
-    //     `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`,
-    //   );
-    //   console.log('TMDB response:', response.data);
-    // } catch (error) {
-    //   console.error('TMDB error:', error);
-    // }
+    try {
+      const movies = await getPopularMovies();
+      console.log(movies);
+    } catch (error) {
+      console.error('TMDB error:', error);
+    }
   };
 
   return (

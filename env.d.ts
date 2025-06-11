@@ -1,4 +1,5 @@
 declare module '@env' {
-  export const API_KEY: string;
-  // Add more env variables here if needed
+  export const TMDB_ACCESS_TOKEN: string;
+  export const TMDB_API_KEY: string;
+  export const TMDB_URL: string;
 }
