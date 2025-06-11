@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import Silder from './Silder';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
-    paddingVertical: 50,
-    paddingHorizontal: 10,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
     backgroundColor: '#B3E5FC',
   },
 });
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
 export default function Home() {
   return (
     <View style={styles.container}>
-      <Text>Hello world</Text>
+      <Silder />
     </View>
   );
 }
