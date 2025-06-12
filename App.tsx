@@ -1,12 +1,13 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Home from './src/screens/Home';
 
 function App(): React.JSX.Element {
   return (
-    <View style={styles.mainContainer}>
+    <GestureHandlerRootView style={styles.mainContainer}>
       <Home />
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
