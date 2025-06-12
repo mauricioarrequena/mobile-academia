@@ -125,8 +125,7 @@ const Silder = () => {
         <Text>discover</Text>
       </View>
       <View style={styles.content}>
-        <Carousel
-          style={[styles.carouselConteiner, styles.carousel]}
+        <Carousel style={[styles.carouselConteiner, styles.carousel]}
           ref={ref}
           width={carouselWidth}
           height={carouselHeight}
@@ -138,8 +137,7 @@ const Silder = () => {
             </View>
           )}
         />
-        <Pagination.Basic
-          progress={progress}
+        <Pagination.Basic progress={progress}
           data={data}
           containerStyle={styles.carouselPaginator}
           dotStyle={styles.carouselPaginatorDot}
