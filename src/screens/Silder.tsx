@@ -1,6 +1,22 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from 'react-native';
 import {getPopularMovies} from '../utils/TMDBService';
+import {useSharedValue} from 'react-native-reanimated';
+import Carousel, {
+  ICarouselInstance,
+  Pagination,
+} from 'react-native-reanimated-carousel';
+
+// Dynamic screen-based dimensions
+const screenWidth = Dimensions.get('window').width;
+const carouselWidth = screenWidth * 0.9;
+const carouselHeight = screenWidth / 3;
 
 const styles = StyleSheet.create({
   container: {
@@ -20,9 +36,40 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 50,
-    borderWidth: 1,
-    borderColor: '#000',
+    padding: 100,
+    borderWidth: 3,
+    borderColor: 'green',
+  },
+  carouselConteiner: {
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: 'yellow',
+    padding: 100,
+    borderWidth: 2,
+    borderColor: 'yellow',
+  },
+  carousel: {
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  carouselContentConntainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'blue',
+  },
+  caraouselContent: {
+    backgroundColor: 'orange',
+  },
+  carouselPaginator: {
+    gap: 10,
+    marginTop: 10,
+  },
+  carouselPaginatorDot: {
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderRadius: 50,
   },
   footer: {
     display: 'flex',
@@ -49,7 +96,19 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
-export default function Silder() {
+
+const Silder = () => {
+  const data = [1, 2, 3, 4, 5];
+  const ref = React.useRef<ICarouselInstance>(null);
+  const progress = useSharedValue<number>(0);
+
+  const onPressPagination = (index: number) => {
+    ref.current?.scrollTo({
+      count: index - progress.value,
+      animated: true,
+    });
+  };
+
   const handleOnPressApi = async () => {
     try {
       const movies = await getPopularMovies();
@@ -66,7 +125,26 @@ export default function Silder() {
         <Text>discover</Text>
       </View>
       <View style={styles.content}>
-        <Text>1</Text>
+        <Carousel
+          style={[styles.carouselConteiner, styles.carousel]}
+          ref={ref}
+          width={carouselWidth}
+          height={carouselHeight}
+          data={data}
+          onProgressChange={progress}
+          renderItem={({index}) => (
+            <View style={styles.carouselContentConntainer}>
+              <Text style={styles.caraouselContent}>{index}</Text>
+            </View>
+          )}
+        />
+        <Pagination.Basic
+          progress={progress}
+          data={data}
+          containerStyle={styles.carouselPaginator}
+          dotStyle={styles.carouselPaginatorDot}
+          onPress={onPressPagination}
+        />
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.button} activeOpacity={0.7}>
@@ -84,4 +162,6 @@ export default function Silder() {
       </View>
     </View>
   );
-}
+};
+
+export default Silder;
