@@ -1,19 +1,13 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import Home from './src/screens/Home';
+import { SafeAreaView } from 'react-native';
+import MovieListScreen from './src/screens/MovieListScreen';
 
-function App(): React.JSX.Element {
+const App = () => {
   return (
-    <View style={styles.mainContainer}>
-      <Home />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <MovieListScreen />
+    </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-  },
-});
+};
 
 export default App;
