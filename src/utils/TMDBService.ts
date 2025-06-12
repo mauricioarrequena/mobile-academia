@@ -1,5 +1,5 @@
-import {TMDB_URL, TMDB_ACCESS_TOKEN} from '@env';
 import axios from 'axios';
+import {TMDB_URL, TMDB_ACCESS_TOKEN} from '@env';
 
 export const getPopularMovies = async () => {
   try {
@@ -9,7 +9,7 @@ export const getPopularMovies = async () => {
         Accept: 'application/json',
       },
       params: {
-        langauge: 'en-US',
+        language: 'en-US',
         page: 1,
       },
     });
@@ -17,5 +17,6 @@ export const getPopularMovies = async () => {
     return response.data.results;
   } catch (error) {
     console.error(`there was an error in getPopularMovies ${error}`);
+    return null;
   }
 };
