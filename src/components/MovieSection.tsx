@@ -1,18 +1,24 @@
 import {FC} from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, useColorScheme} from 'react-native';
 import CarouselHeader from './CarouselHeader';
 import {TMDB_IMAGES_BASE_URL} from '@env';
 
 const ItemSeparator = () => {
   return <View style={styles.carouselSeparator} />;
 };
+
 interface MovieSectionProps {
   sectionName: string;
   movies: Array<any>;
 }
+
 const MovieSection: FC<MovieSectionProps> = ({sectionName, movies}) => {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const themedStyles = getThemedStyles(isDarkMode);
+
   return (
-    <View id="MovieCarouselSection" style={styles.movieSection}>
+    <View id="MovieCarouselSection" style={[styles.movieSection, themedStyles.movieSection]}>
       <CarouselHeader categoryName={sectionName} />
       <View id="carousel" style={styles.carousel}>
         <FlatList
@@ -30,7 +36,7 @@ const MovieSection: FC<MovieSectionProps> = ({sectionName, movies}) => {
                 }}
                 style={styles.image}
               />
-              <Text style={styles.text} numberOfLines={1}>
+              <Text style={[styles.text, themedStyles.text]} numberOfLines={1}>
                 {item.title ? item.title : item.name}
               </Text>
             </View>
@@ -84,5 +90,16 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
   },
 });
+
+// 👇 Dark mode overrides
+const getThemedStyles = (isDarkMode: boolean) =>
+  StyleSheet.create({
+    movieSection: {
+      borderColor: isDarkMode ? '#888' : 'red',
+    },
+    text: {
+      color: isDarkMode ? '#fff' : 'black',
+    },
+  });
 
 export default MovieSection;

@@ -1,24 +1,29 @@
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, useColorScheme} from 'react-native';
 import HomeBanner from '../components/HomeBanner';
 import MovieSection from '../components/MovieSection';
 import {useEffect, useState} from 'react';
 import {getMarvelMovies, getTopRatedMovies} from '../utils/TMDBService';
+import MyComponent from '../components/MyComponent';
 
-const styles = StyleSheet.create({
-  home: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'yellow',
-    gap: 30,
-  },
-});
+const getStyles = (isDarkMode: boolean) =>
+  StyleSheet.create({
+    home: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      backgroundColor: isDarkMode ? '#000' : '#fff',
+      borderWidth: 1,
+      borderColor: isDarkMode ? '#555' : 'yellow',
+      gap: 30,
+    },
+  });
 
 export default function Home() {
   const [marvelMovies, setMarvelMovies] = useState<Array<any>>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<Array<any>>([]);
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const styles = getStyles(isDarkMode);
 
   useEffect(() => {
     const fetchMarvelMovies = async () => {
@@ -36,6 +41,7 @@ export default function Home() {
 
   return (
     <View style={styles.home}>
+      <MyComponent />
       <HomeBanner />
       <MovieSection sectionName="Marvel Movies" movies={marvelMovies} />
       <MovieSection sectionName="Top Rated Movies" movies={topRatedMovies} />

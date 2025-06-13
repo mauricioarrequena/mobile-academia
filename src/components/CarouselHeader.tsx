@@ -1,18 +1,22 @@
 import {FC} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, useColorScheme} from 'react-native';
 
 interface CarouselHeaderProps {
   categoryName: string;
 }
 
 const CarouselHeader: FC<CarouselHeaderProps> = ({categoryName}) => {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const themedStyles = getThemedStyles(isDarkMode);
+
   const handlePress = () => {
     console.log(`See more pressed for category: ${categoryName}`);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{categoryName}</Text>
+      <Text style={[styles.title, themedStyles.title]}>{categoryName}</Text>
       <TouchableOpacity style={styles.linkWrapper} onPress={handlePress}>
         <Text style={styles.link}>See more</Text>
       </TouchableOpacity>
@@ -45,5 +49,13 @@ const styles = StyleSheet.create({
     color: '#F2C94C',
   },
 });
+
+// 👇 Dynamic dark/light overrides
+const getThemedStyles = (isDarkMode: boolean) =>
+  StyleSheet.create({
+    title: {
+      color: isDarkMode ? '#fff' : 'black',
+    },
+  });
 
 export default CarouselHeader;
