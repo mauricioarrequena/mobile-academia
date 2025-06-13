@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { Movie } from  '../types/Movie';
 
 const styles = StyleSheet.create({
@@ -37,7 +37,11 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{movie.title}</Text>
+      <Image source={{ uri: movie.poster}} style={styles.image}/>
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{movie.title}</Text>
+        <Text style={styles.description}>{movie.description}</Text>
+      </View>
     </View>
   );
 };
