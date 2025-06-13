@@ -10,6 +10,7 @@ import {useSharedValue} from 'react-native-reanimated';
 import Carousel, {Pagination} from 'react-native-reanimated-carousel';
 import {getPopularMovies} from '../utils/TMDBService';
 import {Image} from 'react-native'; // Add this import at the top
+import CarouselHeader from '../components/CarouselHeader';
 
 export default function Home() {
   const progress = useSharedValue(0);
@@ -78,6 +79,10 @@ export default function Home() {
           </View>
         </View>
       </View>
+      <CarouselHeader categoryName="Marvel studios" />
+      <CarouselHeader categoryName="Best Movies" />
+      <CarouselHeader categoryName="DC" />
+      <CarouselHeader categoryName="Upcoming movies" />
     </View>
   );
 }
@@ -87,6 +92,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    backgroundColor: 'black',
     // borderWidth: 3,
     // borderColor: 'yellow',
   },
