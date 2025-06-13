@@ -4,6 +4,7 @@ import MovieSection from '../components/MovieSection';
 import {useEffect, useState} from 'react';
 import {getMarvelMovies, getTopRatedMovies} from '../utils/TMDBService';
 import MyComponent from '../components/MyComponent';
+import OverlayExample from '../components/OverlayExample';
 
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
@@ -42,6 +43,7 @@ export default function Home() {
   return (
     <View style={styles.home}>
       <MyComponent />
+      <OverlayExample />
       <HomeBanner />
       <MovieSection sectionName="Marvel Movies" movies={marvelMovies} />
       <MovieSection sectionName="Top Rated Movies" movies={topRatedMovies} />
