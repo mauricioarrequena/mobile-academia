@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+def hermesEnabled = true
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -84,6 +85,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        // 👇 Add this for proper Hermes debugging support
+        buildConfigField "boolean", "IS_HERMES_ENABLED", "true"
     }
     signingConfigs {
         debug {
