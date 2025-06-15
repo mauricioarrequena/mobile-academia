@@ -12,28 +12,31 @@ import {TMDB_IMAGES_BASE_URL} from '@env';
 import Carousel, {Pagination} from 'react-native-reanimated-carousel';
 import {useSharedValue} from 'react-native-reanimated';
 
+const {width: screenWidth} = Dimensions.get('window');
+const carouselHeight = 550;
 const styles = StyleSheet.create({
   banner: {
     display: 'flex',
     flexDirection: 'column',
     gap: 10,
-    borderWidth: 3,
+    borderWidth: 10,
     borderColor: 'orange',
   },
   carouselContainer: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     gap: 5,
-    // borderWidth: 3,
-    // borderColor: 'green',
+    borderWidth: 10,
+    borderColor: 'green',
   },
   carousel: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // borderWidth: 3,
-    // borderColor: 'red',
+    borderWidth: 3,
+    borderColor: 'red',
   },
   renderItem: {
     flex: 1,
@@ -44,25 +47,37 @@ const styles = StyleSheet.create({
   },
   imagePoster: {
     resizeMode: 'cover',
+    height: carouselHeight / 3,
   },
   paginationBasic: {
+    position: 'absolute',
+    bottom: 10,
     display: 'flex',
     flexDirection: 'row',
     gap: 10,
-    // borderWidth: 3,
-    // borderColor: 'green',
+    borderWidth: 3,
+    borderColor: 'blue',
   },
   paginationDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: 'black',
+    backgroundColor: '#ccc',
   },
   buttonPannel: {
+    position: 'absolute',
+    bottom: 50,
+    alignSelf: 'center',
     display: 'flex',
     gap: 10,
-    // borderWidth: 3,
-    // borderColor: 'purple',
+    borderWidth: 3,
+    borderColor: 'purple',
+  },
+  activeDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'yellow',
   },
   categories: {
     display: 'flex',
@@ -116,8 +131,6 @@ const styles = StyleSheet.create({
 const HomeBanner = () => {
   const [bannerMovies, setBannerMovies] = useState([]);
   const progress = useSharedValue(0);
-  const {width: screenWidth} = Dimensions.get('window');
-  const carouselHeight = 550;
 
   useEffect(() => {
     async function fetchPopularMovies() {
@@ -131,7 +144,8 @@ const HomeBanner = () => {
   return (
     <View style={styles.banner}>
       <View id="carouselContainer" style={styles.carouselContainer}>
-        <Carousel width={screenWidth}
+        <Carousel
+          width={screenWidth}
           height={carouselHeight}
           style={styles.carousel}
           data={bannerMovies}
@@ -152,28 +166,30 @@ const HomeBanner = () => {
             </View>
           )}
         />
-        <Pagination.Basic data={[1, 2, 3]}
+        <View id="buttonPannel" style={styles.buttonPannel}>
+          <View id="categories" style={styles.categories}>
+            <Text>My List</Text>
+            <Text>Discover</Text>
+          </View>
+          <View id="buttons" style={styles.buttons}>
+            <View style={styles.buttons}>
+              <TouchableOpacity style={styles.redButton}>
+                <Text style={styles.buttonText}>Wishlist</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.blackButton}>
+                <Text style={styles.buttonText}>Discover</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <Pagination.Basic
+          data={[1, 2, 3]}
           containerStyle={styles.paginationBasic}
           dotStyle={styles.paginationDot}
+          activeDotStyle={styles.activeDot}
           progress={progress}
           onPress={() => {}}
         />
-      </View>
-      <View id="buttonPannel" style={styles.buttonPannel}>
-        <View id="categories" style={styles.categories}>
-          <Text>My List</Text>
-          <Text>Discover</Text>
-        </View>
-        <View id="buttons" style={styles.buttons}>
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.redButton}>
-              <Text style={styles.buttonText}>Wishlist</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.blackButton}>
-              <Text style={styles.buttonText}>Discover</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </View>
     </View>
   );
