@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,88 +6,82 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  useColorScheme,
 } from 'react-native';
-import {getPopularMovies} from '../utils/TMDBService';
-import {TMDB_IMAGES_BASE_URL} from '@env';
-import Carousel, {Pagination} from 'react-native-reanimated-carousel';
-import {useSharedValue} from 'react-native-reanimated';
+import { PopularMovie } from '../types/PopularMovie';
+import { getPopularMovies } from '../utils/TMDBService';
+import { TMDB_IMAGES_BASE_URL } from '@env';
+import Carousel, { Pagination, ICarouselInstance } from 'react-native-reanimated-carousel';
+import { useSharedValue } from 'react-native-reanimated';
+import LinearGradient from 'react-native-linear-gradient';
 
-const {width: screenWidth} = Dimensions.get('window');
-const carouselHeight = 550;
+const { width: screenWidth } = Dimensions.get('window');
+const bannerHeight = 495;
+const BLACK_GRADIENT_COLORS = [
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0.6)',
+  'rgba(0, 0, 0, 0.85)',
+  'black',
+  'black',
+];
+const BLACK_GRADIENT_LOCATIONS = [0, 0.2, 0.4, 0.7, 1];
 const styles = StyleSheet.create({
-  banner: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 10,
-    borderWidth: 10,
-    borderColor: 'orange',
-  },
-  carouselContainer: {
+  homeBanner: {
+    height: bannerHeight,
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    gap: 5,
-    borderWidth: 10,
-    borderColor: 'green',
+    // borderWidth: 5,
+    // borderColor: 'green',
   },
   carousel: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 3,
-    borderColor: 'red',
-  },
-  renderItem: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // borderWidth: 8,
-    // borderColor: 'blue',
+    // borderWidth: 3,
+    // borderColor: 'red',
   },
   imagePoster: {
     resizeMode: 'cover',
-    height: carouselHeight / 3,
+    height: '100%',
+    // borderWidth: 4,
+    // borderColor: 'coral',
   },
-  paginationBasic: {
+  blackLinearGradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: '60%',
+    bottom: 0,
+    pointerEvents: 'none',
+  },
+  floatingPannel: {
     position: 'absolute',
     bottom: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 10,
-    borderWidth: 3,
-    borderColor: 'blue',
-  },
-  paginationDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#ccc',
-  },
-  buttonPannel: {
-    position: 'absolute',
-    bottom: 50,
     alignSelf: 'center',
     display: 'flex',
-    gap: 10,
-    borderWidth: 3,
-    borderColor: 'purple',
+    flexDirection: 'column',
+    gap: 25,
+    // borderWidth: 4,
+    // borderColor: 'orange',
   },
-  activeDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'yellow',
+  controlsContainer: {
+    display: 'flex',
+    gap: 20,
+    // borderWidth: 3,
+    // borderColor: 'purple',
   },
-  categories: {
+  sectionsContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 60,
+    gap: 40,
     // borderWidth: 3,
-    // borderColor: 'gold',
+    // borderColor: 'green',
   },
-  buttons: {
+  sectionText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#ccc',
+  },
+  buttonsContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -95,100 +89,123 @@ const styles = StyleSheet.create({
     // borderWidth: 3,
     // borderColor: 'limegreen',
   },
-  redButton: {
-    backgroundColor: '#0063e5', // Disney+ blue
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    borderRadius: 4,
+  secondaryButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 35,
     alignItems: 'center',
-    shadowColor: '#0041a8',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    elevation: 5, // for Android shadow
+    borderRadius: 8,
+    backgroundColor: '#7D8790',
   },
-  blackButton: {
-    backgroundColor: '#031e3e', // dark navy blue
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    borderRadius: 4,
+  primaryButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 35,
     alignItems: 'center',
-    shadowColor: '#01172f',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.7,
-    shadowRadius: 3,
-    elevation: 4,
+    borderRadius: 8,
+    backgroundColor: '#F2C94C',
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: '700',
     fontSize: 16,
     letterSpacing: 1,
+    fontWeight: '700',
+    color: '#fff',
     textTransform: 'uppercase',
   },
+  paginator: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 12,
+    // borderWidth: 3,
+    // borderColor: 'blue',
+  },
+  regularDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+    backgroundColor: '#ccc',
+  },
+  activeDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+    backgroundColor: 'yellow',
+  },
 });
+const getThemedStyles = (isDarkMode: boolean) => {
+  return StyleSheet.create({
+    primaryButtonText: {
+      color: isDarkMode ? '#000' : '#fff',
+    },
+  });
+};
 
 const HomeBanner = () => {
-  const [bannerMovies, setBannerMovies] = useState([]);
+  const colorScheme = useColorScheme();
+  const [bannerMovies, setBannerMovies] = useState<Array<PopularMovie>>([]);
   const progress = useSharedValue(0);
+  const carouselRef = useRef<ICarouselInstance>(null);
+  const isDarkMode = colorScheme === 'dark';
+  const themedStyles = getThemedStyles(isDarkMode);
 
   useEffect(() => {
     async function fetchPopularMovies() {
-      const movies = await getPopularMovies();
-      setBannerMovies(movies);
+      const popularMovies = await getPopularMovies();
+      setBannerMovies(popularMovies.slice(0, 5));
     }
 
     fetchPopularMovies();
   }, []);
 
+  const onPressPagination = (index: number) => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollTo({
+        count: index - progress.value,
+        animated: true,
+      });
+    }
+  };
+
   return (
-    <View style={styles.banner}>
-      <View id="carouselContainer" style={styles.carouselContainer}>
-        <Carousel
-          width={screenWidth}
-          height={carouselHeight}
-          style={styles.carousel}
-          data={bannerMovies}
-          renderItem={({item}: {item: {poster_path: string}}) => (
-            <View style={styles.renderItem}>
-              <Image
-                source={{
-                  uri: `${TMDB_IMAGES_BASE_URL}/w500${item.poster_path}`,
-                }}
-                style={[
-                  styles.imagePoster,
-                  {
-                    width: screenWidth,
-                    height: carouselHeight,
-                  },
-                ]}
-              />
-            </View>
-          )}
-        />
-        <View id="buttonPannel" style={styles.buttonPannel}>
-          <View id="categories" style={styles.categories}>
-            <Text>My List</Text>
-            <Text>Discover</Text>
+    <View style={styles.homeBanner}>
+      <Carousel
+        ref={carouselRef}
+        style={styles.carousel}
+        width={screenWidth}
+        data={bannerMovies}
+        onProgressChange={progress}
+        renderItem={({ item }) => (
+          <Image
+            style={styles.imagePoster}
+            source={{ uri: `${TMDB_IMAGES_BASE_URL}/w500${item.poster_path}` }}
+          />
+        )}
+      />
+      <LinearGradient
+        style={styles.blackLinearGradient}
+        colors={BLACK_GRADIENT_COLORS}
+        locations={BLACK_GRADIENT_LOCATIONS}
+      />
+      <View style={styles.floatingPannel}>
+        <View style={styles.controlsContainer}>
+          <View style={styles.sectionsContainer}>
+            <Text style={styles.sectionText}>My List</Text>
+            <Text style={styles.sectionText}>Discover</Text>
           </View>
-          <View id="buttons" style={styles.buttons}>
-            <View style={styles.buttons}>
-              <TouchableOpacity style={styles.redButton}>
-                <Text style={styles.buttonText}>Wishlist</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.blackButton}>
-                <Text style={styles.buttonText}>Discover</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity style={styles.secondaryButton}>
+              <Text style={styles.buttonText}>+ Wishlist</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.primaryButton}>
+              <Text style={[styles.buttonText, themedStyles.primaryButtonText]}>Details</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <Pagination.Basic
-          data={[1, 2, 3]}
-          containerStyle={styles.paginationBasic}
-          dotStyle={styles.paginationDot}
+          containerStyle={styles.paginator}
+          dotStyle={styles.regularDot}
           activeDotStyle={styles.activeDot}
+          data={bannerMovies}
           progress={progress}
-          onPress={() => {}}
+          onPress={onPressPagination}
         />
       </View>
     </View>

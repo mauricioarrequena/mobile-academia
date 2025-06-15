@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {TMDB_URL, TMDB_ACCESS_TOKEN} from '@env';
+import { PopularMovie } from '../types/PopularMovie';
 
 export const getPopularMovies = async () => {
   try {
@@ -14,10 +15,10 @@ export const getPopularMovies = async () => {
       },
     });
 
-    return response.data.results;
+    return response.data.results as Array<PopularMovie>;
   } catch (error) {
     console.error(`there was an error in getPopularMovies ${error}`);
-    return null;
+    return [];
   }
 };
 
