@@ -1,5 +1,12 @@
 import {FC} from 'react';
-import {View, Text, StyleSheet, FlatList, Image, useColorScheme} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  useColorScheme,
+} from 'react-native';
 import CarouselHeader from './CarouselHeader';
 import {TMDB_IMAGES_BASE_URL} from '@env';
 
@@ -18,7 +25,9 @@ const MovieSection: FC<MovieSectionProps> = ({sectionName, movies}) => {
   const themedStyles = getThemedStyles(isDarkMode);
 
   return (
-    <View id="MovieCarouselSection" style={[styles.movieSection, themedStyles.movieSection]}>
+    <View
+      id="MovieCarouselSection"
+      style={[styles.movieSection, themedStyles.movieSection]}>
       <CarouselHeader categoryName={sectionName} />
       <View id="carousel" style={styles.carousel}>
         <FlatList
@@ -51,8 +60,8 @@ const styles = StyleSheet.create({
   movieSection: {
     gap: 15,
     paddingHorizontal: 25,
-    borderWidth: 1,
-    borderColor: 'red',
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   carousel: {
     // borderWidth: 3,
@@ -68,7 +77,7 @@ const styles = StyleSheet.create({
     // borderColor: 'orange',
   },
   movieItem: {
-    width: 100, // Same as image width
+    width: 100,
     alignItems: 'center',
     gap: 8,
     // borderWidth: 2,
@@ -77,13 +86,13 @@ const styles = StyleSheet.create({
   image: {
     width: 110,
     height: 165,
-    borderRadius: 8, // Adjust this value as needed
-    overflow: 'hidden', // Ensures rounded corners clip the image correctly (especially on Android)
+    borderRadius: 8,
+    overflow: 'hidden',
     // borderWidth: 3,
     // borderColor: 'yellow',
   },
   text: {
-    width: '100%', // Confine text to image width
+    width: '100%',
     textAlign: 'center',
     color: 'black',
     // borderWidth: 2,
@@ -91,7 +100,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// 👇 Dark mode overrides
 const getThemedStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
     movieSection: {

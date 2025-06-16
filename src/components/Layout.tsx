@@ -1,5 +1,6 @@
 import React, {ReactNode} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -9,11 +10,11 @@ interface LayoutProps {
 
 export default function Layout({children}: LayoutProps) {
   return (
-    <SafeAreaView style={styles.layout}>
-      <Header />
+    <View style={styles.layout}>
+      {/* <Header /> */}
       <ScrollView contentContainerStyle={styles.content}>{children}</ScrollView>
       <Footer />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: 'transparent',
     // borderWidth: 5,
     // borderColor: 'green',
   },

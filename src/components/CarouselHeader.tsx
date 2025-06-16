@@ -1,5 +1,11 @@
 import {FC} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, useColorScheme} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  useColorScheme,
+} from 'react-native';
 
 interface CarouselHeaderProps {
   categoryName: string;
@@ -16,9 +22,9 @@ const CarouselHeader: FC<CarouselHeaderProps> = ({categoryName}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, themedStyles.title]}>{categoryName}</Text>
+      <Text style={[styles.textFont, themedStyles.title]}>{categoryName}</Text>
       <TouchableOpacity style={styles.linkWrapper} onPress={handlePress}>
-        <Text style={styles.link}>See more</Text>
+        <Text style={[styles.textFont, styles.link]}>See more</Text>
       </TouchableOpacity>
     </View>
   );
@@ -45,12 +51,21 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    fontSize: 14,
     color: '#F2C94C',
+  },
+  titlefont: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 24,
+  },
+  subtitlefont: {
+    fontFamily: 'Gilroy-Regular',
+    fontSize: 16,
+  },
+  textFont: {
+    fontFamily: 'Gilroy-Bold',
   },
 });
 
-// 👇 Dynamic dark/light overrides
 const getThemedStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
     title: {
