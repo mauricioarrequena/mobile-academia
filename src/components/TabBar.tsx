@@ -1,7 +1,43 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  useColorScheme,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import type {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+
+const getStyles = (isDarkMode: boolean) => {
+  const inactiveColor = isDarkMode ? '#aaa' : '#888';
+  return {
+    styles: StyleSheet.create({
+      container: {
+        flexDirection: 'row',
+        height: 80, // taller bar
+        borderTopWidth: 1,
+        paddingBottom: 15,
+        borderTopColor: isDarkMode ? '#333' : '#ccc',
+        backgroundColor: isDarkMode ? '#000' : '#fff',
+      },
+      tab: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 8, // spacing between icon and text
+      },
+      label: {
+        fontSize: 13, // optional: slightly bigger text
+        marginTop: 4, // more space between icon and label
+      },
+    }),
+    getTextColor: (isFocused: boolean) =>
+      isFocused ? '#F2C94C' : inactiveColor,
+    getIconColor: (isFocused: boolean) =>
+      isFocused ? '#F2C94C' : inactiveColor,
+  };
+};
 
 const iconMap: Record<string, string> = {
   Home: 'home',
@@ -10,18 +46,20 @@ const iconMap: Record<string, string> = {
   Profile: 'person',
 };
 
-export default function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+export default function TabBar({
+  state,
+  descriptors,
+  navigation,
+}: BottomTabBarProps) {
+  const scheme = useColorScheme();
+  const isDarkMode = scheme === 'dark';
+  const {styles, getTextColor, getIconColor} = getStyles(isDarkMode);
+
   return (
     <View style={styles.container}>
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
-
+        const {options} = descriptors[route.key];
+        const label = route.name;
         const isFocused = state.index === index;
         const iconName = iconMap[route.name] || 'help-circle';
 
@@ -39,21 +77,19 @@ export default function TabBar({ state, descriptors, navigation }: BottomTabBarP
 
         return (
           <TouchableOpacity
-            accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
             key={route.key}
+            accessibilityRole="button"
+            accessibilityState={isFocused ? {selected: true} : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
             onPress={onPress}
             style={styles.tab}
-            activeOpacity={0.7}
-          >
+            activeOpacity={0.7}>
             <Ionicons
               name={iconName}
               size={24}
-              color={isFocused ? '#F2C94C' : '#888'}
+              color={getIconColor(isFocused)}
             />
-            <Text style={[styles.label, { color: isFocused ? '#F2C94C' : '#888' }]}>
+            <Text style={[styles.label, {color: getTextColor(isFocused)}]}>
               {label}
             </Text>
           </TouchableOpacity>
@@ -62,23 +98,3 @@ export default function TabBar({ state, descriptors, navigation }: BottomTabBarP
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    height: 60,
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    backgroundColor: 'black',
-    paddingBottom: 15,
-  },
-  tab: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  label: {
-    fontSize: 12,
-    marginTop: 2,
-  },
-});
