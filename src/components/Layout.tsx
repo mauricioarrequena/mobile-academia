@@ -2,7 +2,6 @@ import React, {ReactNode} from 'react';
 import {StyleSheet} from 'react-native';
 import {View, ScrollView} from 'react-native';
 import Header from './Header';
-import Footer from './Footer';
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,7 +12,6 @@ export default function Layout({children}: LayoutProps) {
     <View style={styles.layout}>
       {/* <Header /> */}
       <ScrollView contentContainerStyle={styles.content}>{children}</ScrollView>
-      <Footer />
     </View>
   );
 }
