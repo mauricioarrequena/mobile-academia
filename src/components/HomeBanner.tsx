@@ -10,7 +10,7 @@ import {
   Modal,
 } from 'react-native';
 import {PopularMovie} from '../types/PopularMovie';
-import {getPopularMovies} from '../utils/TMDBService';
+import useTMDB from '../hooks/useTMDB';
 import {TMDB_IMAGES_BASE_URL} from '@env';
 import Carousel, {
   Pagination,
@@ -192,19 +192,15 @@ const HomeBanner = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const carouselRef = useRef<ICarouselInstance>(null);
   const progress = useSharedValue(0);
+  const {movies} = useTMDB('movie/popular', {});
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const styles = getStyles(isDarkMode);
 
   useEffect(() => {
-    async function fetchPopularMovies() {
-      const popularMovies = await getPopularMovies();
-      setBannerMovies(popularMovies.slice(0, 5));
-      setSelectedMovie(popularMovies[0]);
-    }
-
-    fetchPopularMovies();
-  }, []);
+    setBannerMovies(movies.slice(0, 5));
+    setSelectedMovie(movies[0]);
+  }, [movies]);
 
   const handleOnSnapToItem = (index: number) => {
     setSelectedMovie(bannerMovies[index]);
