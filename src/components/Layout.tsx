@@ -1,7 +1,6 @@
 import React, {ReactNode} from 'react';
 import {StyleSheet} from 'react-native';
 import {View, ScrollView} from 'react-native';
-import Header from './Header';
 
 interface LayoutProps {
   children: ReactNode;

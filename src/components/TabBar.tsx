@@ -15,7 +15,7 @@ const getStyles = (isDarkMode: boolean) => {
     styles: StyleSheet.create({
       container: {
         flexDirection: 'row',
-        height: 80, // taller bar
+        height: 80,
         borderTopWidth: 1,
         paddingBottom: 15,
         borderTopColor: isDarkMode ? '#333' : '#ccc',
@@ -25,11 +25,13 @@ const getStyles = (isDarkMode: boolean) => {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 8, // spacing between icon and text
+        paddingVertical: 8,
+        // Added border color to distinguish each tab (temporary)
+        borderWidth: 1,
       },
       label: {
-        fontSize: 13, // optional: slightly bigger text
-        marginTop: 4, // more space between icon and label
+        fontSize: 13,
+        marginTop: 4,
       },
     }),
     getTextColor: (isFocused: boolean) =>
@@ -38,13 +40,13 @@ const getStyles = (isDarkMode: boolean) => {
       isFocused ? '#F2C94C' : inactiveColor,
   };
 };
-
 const iconMap: Record<string, string> = {
   Home: 'home',
   Search: 'search',
   Wishlist: 'heart',
   Profile: 'person',
 };
+const tabColors = ['red', 'green', 'blue', 'purple'];
 
 export default function TabBar({
   state,
@@ -82,7 +84,10 @@ export default function TabBar({
             accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             onPress={onPress}
-            style={styles.tab}
+            style={[
+              styles.tab,
+              {borderColor: tabColors[index % tabColors.length]},
+            ]}
             activeOpacity={0.7}>
             <Ionicons
               name={iconName}
