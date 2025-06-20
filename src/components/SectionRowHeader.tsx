@@ -42,7 +42,7 @@ const getStyles = (isDarkMode: boolean) =>
 
 type RootStackParamList = {
   Tabs: undefined;
-  SeeMore: {categoryName: string};
+  SectionScreen: {categoryName: string};
 };
 
 interface SectionRowHeaderProps {
@@ -55,8 +55,8 @@ const SectionRowHeader: FC<SectionRowHeaderProps> = ({categoryName}) => {
   const styles = getStyles(true);
 
   const handleOnPressSeeMore = () => {
-    navigation.navigate('SeeMore', {
-      categoryName: 'Wishlist',
+    navigation.navigate('SectionScreen', {
+      categoryName: categoryName,
     });
   };
 
