@@ -7,7 +7,7 @@ import {
   Image,
   useColorScheme,
 } from 'react-native';
-import CarouselHeader from './CarouselHeader';
+import SectionRowHeader from './SectionRowHeader';
 import {TMDB_IMAGES_BASE_URL} from '@env';
 
 const ItemSeparator = () => {
@@ -28,7 +28,7 @@ const MovieSection: FC<MovieSectionProps> = ({sectionName, movies}) => {
     <View
       id="MovieCarouselSection"
       style={[styles.movieSection, themedStyles.movieSection]}>
-      <CarouselHeader categoryName={sectionName} />
+      <SectionRowHeader categoryName={sectionName} />
       <View id="carousel" style={styles.carousel}>
         <FlatList
           data={movies}
