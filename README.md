@@ -1,97 +1,217 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# MOVIES APP
 
-# Getting Started
+---
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## About the Project
 
-## Step 1: Start Metro
+A cross-platform mobile app built with React Native for Browse movies. The purpose of this app is to provide a simple and easy way to browse and search for movies. Built with the intention to provide accurate information about the movies in a centralized place.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Folder Structur
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+.ACADEMIA
+├── **tests**
+├── .bundle
+├── .vscode
+├── android
+├── assets
+│ └── fonts
+│ ├── Gilroy-Black.ttf
+│ ├── Gilroy-BlackItalic.ttf
+│ ├── Gilroy-Bold.ttf
+│ ├── Gilroy-BoldItalic.ttf
+│ ├── Gilroy-ExtraBold.ttf
+│ ├── Gilroy-ExtraBoldItalic.ttf
+│ ├── Gilroy-Heavy.ttf
+│ ├── Gilroy-HeavyItalic.ttf
+│ ├── Gilroy-Light.ttf
+│ ├── Gilroy-LightItalic.ttf
+│ ├── Gilroy-Medium.ttf
+│ ├── Gilroy-MediumItalic.ttf
+│ ├── Gilroy-Regular.ttf
+│ ├── Gilroy-RegularItalic.ttf
+│ ├── Gilroy-SemiBold.ttf
+│ ├── Gilroy-SemiBoldItalic.ttf
+│ ├── Gilroy-Thin.ttf
+│ ├── Gilroy-ThinItalic.ttf
+│ ├── Gilroy-UltraLight.ttf
+│ ├── Gilroy-UltraLightItalic.ttf
+│ └── Help - Guide Document.pdf
+├── ios
+├── node_modules
+├── src
+│ ├── assets
+│ │ └── fonts
+│ ├── components
+│ │ ├── CarouselHeader.tsx
+│ │ ├── Footer.tsx
+│ │ ├── Header.tsx
+│ │ ├── HomeBanner.tsx
+│ │ ├── Layout.tsx
+│ │ ├── Movies.tsx
+│ │ ├── MovieSection.tsx
+│ │ └── TabBar.tsx
+│ ├── hooks
+│ │ └── useTMDB.ts
+│ ├── navigation
+│ │ ├── AppNavigator.tsx
+│ │ └── BottomTabs.tsx
+│ ├── screens
+│ │ ├── HomeScreen.tsx
+│ │ ├── ProfileScreen.tsx
+│ │ ├── SearchScreen.tsx
+│ │ └── WishListScreen.tsx
+│ ├── services
+│ ├── theme
+│ ├── types
+│ │ ├── PopularMovie.ts
+│ │ └── react-native-vector-icons.d.ts
+├── .env
+├── .eslintrc.js
+├── .gitignore
+├── .prettierrc.js
+├── .watchmanconfig
+├── App.tsx
+├── app.json
+├── babel.config.js
+├── env.d.ts
+├── Gemfile.lock
+├── index.js
+├── jest.config.js
+├── metro.config.js
+├── package-lock.json
+├── package.json
+├── react-native.config.js
+├── README.md
+└── tsconfig.json
 
-```sh
-# Using npm
-npm start
+---
 
-# OR using Yarn
-yarn start
-```
+## Environment Variables
 
-## Step 2: Build and run your app
+Create a `.env` file in the root directory and add the following environment variables:
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+````dotenv
+TMDB_ACCESS_TOKEN=mock_access_token_example_123456
+TMDB_API_KEY=mock_api_key_example_abcdef
+TMDB_URL=[https://api.themoviedb.org/3](https://api.themoviedb.org/3)
+TMDB_IMAGES_BASE_URL=[https://image.tmdb.org/t/p](https://image.tmdb.org/t/p)
 
-### Android
 
-```sh
-# Using npm
-npm run android
 
-# OR using Yarn
-yarn android
-```
+---
 
-### iOS
+## Setup Instructions
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+### Prerequisites
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+* **Node.js** 18+
+* **npm**
+* **React Native** 0.80
+* **React Native CLI**
+* **Android Studio**
+* **Xcode** (Mac)
+* **CocoaPods** (Mac)
 
-```sh
-bundle install
-```
+### Installation
 
-Then, and every time you update your native dependencies, run:
+1.  **Clone the repository:**
 
-```sh
-bundle exec pod install
-```
+    ```bash
+    git clone [https://github.com/mauricioarrequena/mobile-academia.git](https://github.com/mauricioarrequena/mobile-academia.git)
+    ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+2.  **Navigate to the project directory:**
 
-```sh
-# Using npm
-npm run ios
+    ```bash
+    cd academia
+    ```
 
-# OR using Yarn
-yarn ios
-```
+3.  **Install JavaScript dependencies:**
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+    ```bash
+    npm install
+    ```
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### Installation (macOS Specific)
 
-## Step 3: Modify your app
+1.  **Navigate to the iOS directory:**
 
-Now that you have successfully run the app, let's make changes!
+    ```bash
+    cd ios
+    ```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+2.  **Install Bundler:**
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+    ```bash
+    bundle install
+    ```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+3.  **Install iOS dependencies with CocoaPods:**
 
-## Congratulations! :tada:
+    ```bash
+    bundle exec pod install
+    ```
 
-You've successfully run and modified your React Native App. :partying_face:
+### Run on Android
 
-### Now what?
+1.  **Start the Metro bundler:**
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+    ```bash
+    npx start
+    ```
 
-# Troubleshooting
+2.  **Run the Android app:**
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+    ```bash
+    npx react-native run-android
+    ```
 
-# Learn More
+### Run on iOS
 
-To learn more about React Native, take a look at the following resources:
+1.  **Start the Metro bundler:**
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+    ```bash
+    npx start
+    ```
+
+2.  **Run the iOS app:**
+
+    ```bash
+    npx react-native run-ios
+    ```
+    *Note: After installing dependencies on iOS, you might need to run `npx react-native start --reset-cache` to clear the cache if you encounter issues.*
+
+
+---
+
+## CI/CD Instructions
+
+Not yet configured.
+
+---
+
+## Tech Stack
+
+* **React Native** + CLI
+* **React Navigation**
+* **The Movie Database (TMDB) API**
+
+---
+
+## Troubleshooting
+
+If you encounter issues on iOS after installing dependencies, try the following:
+
+1.  **Clear the Metro bundler cache:**
+
+    ```bash
+    npx react-native start --reset-cache
+    ```
+
+2.  **Reinstall iOS dependencies (if needed):**
+
+    ```bash
+    cd ios
+    bundle install
+    bundle exec pod install
+    ```
