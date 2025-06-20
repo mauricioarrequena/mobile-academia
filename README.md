@@ -4,81 +4,92 @@
 A cross-platform mobile app built with React Native for Browse movies. The purpose of this app is to provide a simple and easy way to browse and search for movies. Built with the intention to provide accurate information about the movies in a centralized place.
 
 ## Folder Structure
-📁 .ACADEMIA  
-	📁 **tests**  
-	📁 .bundle  
-	📁 .vscode  
-	📁 android  
-	📁 assets  
-		📁 fonts  
-			📄 Gilroy-Black.ttf  
-			📄 Gilroy-BlackItalic.ttf  
-			📄 Gilroy-Bold.ttf  
-			📄 Gilroy-BoldItalic.ttf  
-			📄 Gilroy-ExtraBold.ttf  
-			📄 Gilroy-ExtraBoldItalic.ttf  
-			📄 Gilroy-Heavy.ttf  
-			📄 Gilroy-HeavyItalic.ttf  
-			📄 Gilroy-Light.ttf  
-			📄 Gilroy-LightItalic.ttf  
-			📄 Gilroy-Medium.ttf  
-			📄 Gilroy-MediumItalic.ttf  
-			📄 Gilroy-Regular.ttf  
-			📄 Gilroy-RegularItalic.ttf  
-			📄 Gilroy-SemiBold.ttf  
-			📄 Gilroy-SemiBoldItalic.ttf  
-			📄 Gilroy-Thin.ttf  
-			📄 Gilroy-ThinItalic.ttf  
-			📄 Gilroy-UltraLight.ttf  
-			📄 Gilroy-UltraLightItalic.ttf  
-		📄 Help - Guide Document.pdf  
-	📁 ios  
-	📁 node_modules  
-	📁 src  
-		📁 assets  
-			📁 fonts  
-		📁 components  
-			📄 CarouselHeader.tsx  
-			📄 Footer.tsx  
-			📄 Header.tsx  
-			📄 HomeBanner.tsx  
-			📄 Layout.tsx  
-			📄 Movies.tsx  
-			📄 MovieSection.tsx  
-			📄 TabBar.tsx  
-		📁 hooks  
-			📄 useTMDB.ts  
-		📁 navigation  
-			📄 AppNavigator.tsx  
-			📄 BottomTabs.tsx  
-		📁 screens  
-			📄 HomeScreen.tsx  
-			📄 ProfileScreen.tsx  
-			📄 SearchScreen.tsx  
-			📄 WishListScreen.tsx  
-		📁 services  
-		📁 theme  
-		📁 types  
-			📄 PopularMovie.ts  
-			📄 react-native-vector-icons.d.ts  
-	📄 .env  
-	📄 .eslintrc.js  
-	📄 .gitignore  
-	📄 .prettierrc.js  
-	📄 .watchmanconfig  
-	📄 App.tsx  
-	📄 app.json  
-	📄 babel.config.js  
-	📄 env.d.ts  
-	📄 Gemfile.lock  
-	📄 index.js  
-	📄 jest.config.js  
-	📄 metro.config.js  
-	📄 package-lock.json  
-	📄 package.json  
-	📄 react-native.config.js  
-	📄 README.md  
-	📄 tsconfig.json  
+You want to replace the spaces and tabs used for indentation with hyphens (-) in your folder structure, and still have it display correctly in your README.
+
+While using hyphens instead of spaces/tabs for visual indentation is less conventional for folder structures, you can certainly do it. The key to making it look good on GitHub and ensuring the hyphens aren't misinterpreted by Markdown is still to **enclose the entire structure within a fenced code block**.
+
+Here's the chunk of your README with hyphens for indentation:
+
+---
+## Folder Structure
+
+```
+📁 .ACADEMIA
+-📁 **tests**
+-📁 .bundle
+-📁 .vscode
+-📁 android
+-📁 assets
+--📁 fonts
+---📄 Gilroy-Black.ttf
+---📄 Gilroy-BlackItalic.ttf
+---📄 Gilroy-Bold.ttf
+---📄 Gilroy-BoldItalic.ttf
+---📄 Gilroy-ExtraBold.ttf
+---📄 Gilroy-ExtraBoldItalic.ttf
+---📄 Gilroy-Heavy.ttf
+---📄 Gilroy-HeavyItalic.ttf
+---📄 Gilroy-Light.ttf
+---📄 Gilroy-LightItalic.ttf
+---📄 Gilroy-Medium.ttf
+---📄 Gilroy-MediumItalic.ttf
+---📄 Gilroy-Regular.ttf
+---📄 Gilroy-RegularItalic.ttf
+---📄 Gilroy-SemiBold.ttf
+---📄 Gilroy-SemiBoldItalic.ttf
+---📄 Gilroy-Thin.ttf
+---📄 Gilroy-ThinItalic.ttf
+---📄 Gilroy-UltraLight.ttf
+---📄 Gilroy-UltraLightItalic.ttf
+--📄 Help - Guide Document.pdf
+-📁 ios
+-📁 node_modules
+-📁 src
+--📁 assets
+---📁 fonts
+--📁 components
+---📄 CarouselHeader.tsx
+---📄 Footer.tsx
+---📄 Header.tsx
+---📄 HomeBanner.tsx
+---📄 Layout.tsx
+---📄 Movies.tsx
+---📄 MovieSection.tsx
+---📄 TabBar.tsx
+--📁 hooks
+---📄 useTMDB.ts
+--📁 navigation
+---📄 AppNavigator.tsx
+---📄 BottomTabs.tsx
+--📁 screens
+---📄 HomeScreen.tsx
+---📄 ProfileScreen.tsx
+---📄 SearchScreen.tsx
+---📄 WishListScreen.tsx
+--📁 services
+--📁 theme
+--📁 types
+---📄 PopularMovie.ts
+---📄 react-native-vector-icons.d.ts
+-📄 .env
+-📄 .eslintrc.js
+-📄 .gitignore
+-📄 .prettierrc.js
+-📄 .watchmanconfig
+-📄 App.tsx
+-📄 app.json
+-📄 babel.config.js
+-📄 env.d.ts
+-📄 Gemfile.lock
+-📄 index.js
+-📄 jest.config.js
+-📄 metro.config.js
+-📄 package-lock.json
+-📄 package.json
+-📄 react-native.config.js
+-📄 README.md
+-📄 tsconfig.json
+```
 
 
 ## Environment Variables
