@@ -42,7 +42,7 @@ const getStyles = (isDarkMode: boolean) =>
 
 type RootStackParamList = {
   Tabs: undefined;
-  SectionScreen: {categoryName: string};
+  SectionScreen: {categoryName: string; endpoint: string; params: any};
 };
 
 interface SectionRowHeaderProps {
@@ -57,6 +57,11 @@ const SectionRowHeader: FC<SectionRowHeaderProps> = ({categoryName}) => {
   const handleOnPressSeeMore = () => {
     navigation.navigate('SectionScreen', {
       categoryName: categoryName,
+      endpoint: 'discover/movie',
+      params: {
+        sort_by: 'popularity.desc',
+        with_companies: 420,
+      },
     });
   };
 
