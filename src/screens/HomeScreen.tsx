@@ -16,7 +16,7 @@ const getStyles = (isDarkMode: boolean) =>
       // borderColor: 'yellow',
     },
   });
-export default function Home() {
+export default function HomeScreen() {
   const {movies: marvelMovies} = useTMDB('discover/movie', {
     sort_by: 'popularity.desc',
     with_companies: 420,
