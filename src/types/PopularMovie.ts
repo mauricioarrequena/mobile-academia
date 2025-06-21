@@ -4,4 +4,5 @@ export interface PopularMovie {
   release_date: string;
   title: string;
   poster_path: string;
+  name: string;
 }
