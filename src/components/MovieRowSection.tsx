@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import { FC } from 'react';
 import {
   View,
   Text,
@@ -8,53 +8,11 @@ import {
   useColorScheme,
 } from 'react-native';
 import MovieRowSectionHeader from './MovieRowSectionHeader';
-import {TMDB_IMAGES_BASE_URL} from '@env';
-
-const ItemSeparator = () => {
-  return <View style={styles.carouselSeparator} />;
-};
-
-interface MovieSectionProps {
-  sectionName: string;
-  movies: Array<any>;
-}
-
-const MovieRowSection: FC<MovieSectionProps> = ({sectionName, movies}) => {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const themedStyles = getThemedStyles(isDarkMode);
-
-  return (
-    <View
-      id="MovieCarouselSection"
-      style={[styles.movieSection, themedStyles.movieSection]}>
-      <MovieRowSectionHeader categoryName={sectionName} />
-      <View id="carousel" style={styles.carousel}>
-        <FlatList
-          data={movies}
-          keyExtractor={item => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={ItemSeparator}
-          style={styles.flatList}
-          renderItem={({item}) => (
-            <View style={styles.movieItem}>
-              <Image
-                source={{
-                  uri: `${TMDB_IMAGES_BASE_URL}/w185${item.poster_path}`,
-                }}
-                style={styles.image}
-              />
-              <Text style={[styles.text, themedStyles.text]} numberOfLines={1}>
-                {item.title ? item.title : item.name}
-              </Text>
-            </View>
-          )}
-        />
-      </View>
-    </View>
-  );
-};
+import { TMDB_IMAGES_BASE_URL } from '@env';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/types'; // adjust path
+import useTMDB from '../hooks/useTMDB';
 
 const styles = StyleSheet.create({
   movieSection: {
@@ -99,15 +57,70 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
   },
 });
+const getThemedStyles = (isDarkMode: boolean) => StyleSheet.create({
+  movieSection: {
+    borderColor: isDarkMode ? '#888' : 'red',
+  },
+  text: {
+    color: isDarkMode ? '#fff' : 'black',
+  },
+});
 
-const getThemedStyles = (isDarkMode: boolean) =>
-  StyleSheet.create({
-    movieSection: {
-      borderColor: isDarkMode ? '#888' : 'red',
-    },
-    text: {
-      color: isDarkMode ? '#fff' : 'black',
-    },
-  });
+interface MovieSectionProps {
+  sectionName: string;
+  moviesEndpoint: string;
+  endpointParams?: any;
+}
+const ItemSeparator = () => {
+  return <View style={styles.carouselSeparator} />;
+};
+const MovieRowSection: FC<MovieSectionProps> = ({ sectionName, moviesEndpoint, endpointParams }) => {
+  const { movies } = useTMDB(moviesEndpoint, endpointParams);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const themedStyles = getThemedStyles(isDarkMode);
+  const displayedMovies = movies.slice(0, 5);
+
+  const handleOnPressSeeMore = () => {
+    navigation.navigate('SectionScreen', {
+      categoryName: sectionName,
+      endpoint: moviesEndpoint,
+      params: endpointParams,
+    });
+  };
+
+  return (
+    <View
+      id="MovieCarouselSection"
+      style={[styles.movieSection, themedStyles.movieSection]}>
+      <MovieRowSectionHeader categoryName={sectionName} onPressSeeMore={handleOnPressSeeMore} />
+      <View id="carousel" style={styles.carousel}>
+        <FlatList
+          data={displayedMovies}
+          keyExtractor={item => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={ItemSeparator}
+          style={styles.flatList}
+          renderItem={({ item }) => (
+            <View style={styles.movieItem}>
+              <Image
+                source={{
+                  uri: `${TMDB_IMAGES_BASE_URL}/w185${item.poster_path}`,
+                }}
+                style={styles.image}
+              />
+              <Text style={[styles.text, themedStyles.text]} numberOfLines={1}>
+                {item.title ? item.title : item.name}
+              </Text>
+            </View>
+          )}
+        />
+      </View>
+    </View>
+  );
+};
 
 export default MovieRowSection;
