@@ -7,7 +7,7 @@ import {
   Image,
   useColorScheme,
 } from 'react-native';
-import SectionRowHeader from './SectionRowHeader';
+import MovieRowSectionHeader from './MovieRowSectionHeader';
 import {TMDB_IMAGES_BASE_URL} from '@env';
 
 const ItemSeparator = () => {
@@ -19,7 +19,7 @@ interface MovieSectionProps {
   movies: Array<any>;
 }
 
-const MovieSection: FC<MovieSectionProps> = ({sectionName, movies}) => {
+const MovieRowSection: FC<MovieSectionProps> = ({sectionName, movies}) => {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const themedStyles = getThemedStyles(isDarkMode);
@@ -28,7 +28,7 @@ const MovieSection: FC<MovieSectionProps> = ({sectionName, movies}) => {
     <View
       id="MovieCarouselSection"
       style={[styles.movieSection, themedStyles.movieSection]}>
-      <SectionRowHeader categoryName={sectionName} />
+      <MovieRowSectionHeader categoryName={sectionName} />
       <View id="carousel" style={styles.carousel}>
         <FlatList
           data={movies}
@@ -110,4 +110,4 @@ const getThemedStyles = (isDarkMode: boolean) =>
     },
   });
 
-export default MovieSection;
+export default MovieRowSection;

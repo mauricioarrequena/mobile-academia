@@ -49,7 +49,7 @@ interface SectionRowHeaderProps {
   categoryName: string;
 }
 
-const SectionRowHeader: FC<SectionRowHeaderProps> = ({categoryName}) => {
+const MovieRowSectionHeader: FC<SectionRowHeaderProps> = ({categoryName}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const styles = getStyles(true);
@@ -77,4 +77,4 @@ const SectionRowHeader: FC<SectionRowHeaderProps> = ({categoryName}) => {
   );
 };
 
-export default SectionRowHeader;
+export default MovieRowSectionHeader;

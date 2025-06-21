@@ -1,6 +1,6 @@
 import {StyleSheet, View, useColorScheme} from 'react-native';
 import HomeBanner from '../components/HomeBanner';
-import MovieSection from '../components/MovieSection';
+import MovieRowSection from '../components/MovieRowSection';
 import Layout from '../components/Layout';
 import useTMDB from '../hooks/useTMDB';
 
@@ -33,8 +33,8 @@ export default function HomeScreen() {
     <Layout>
       <View style={styles.home}>
         <HomeBanner />
-        <MovieSection sectionName="Marvel Movies" movies={marvelMovies} />
-        <MovieSection sectionName="Top Rated Movies" movies={topRatedMovies} />
+        <MovieRowSection sectionName="Marvel Movies" movies={marvelMovies} />
+        <MovieRowSection sectionName="Top Rated Movies" movies={topRatedMovies} />
       </View>
     </Layout>
   );
