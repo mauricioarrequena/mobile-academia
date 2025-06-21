@@ -8,15 +8,16 @@ import {
   Image,
 } from 'react-native';
 import useTMDB from '../hooks/useTMDB';
-import {TMDB_IMAGES_BASE_URL} from '@env';
-import {useRoute, RouteProp} from '@react-navigation/native';
+import { TMDB_IMAGES_BASE_URL } from '@env';
+import { useRoute, RouteProp } from '@react-navigation/native';
+import { PopularMovie } from '../types/PopularMovie';
 
 type RootStackParamList = {
   Tabs: undefined;
-  SectionScreen: {categoryName: string; endpoint: string; params: any};
+  SectionScreen: { categoryName: string; endpoint: string; params: any };
 };
 
-const data = Array.from({length: 20}, (_, i) => `Card ${i + 1}`);
+// const data = Array.from({length: 20}, (_, i) => `Card ${i + 1}`);
 const NUMBER_OF_COLUMNS = 2;
 const SPACE = 10;
 const CARD_WIDTH =
@@ -94,15 +95,14 @@ const styles = StyleSheet.create({
 
 export default function SectionScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'SectionScreen'>>();
-  const {categoryName, endpoint, params} = route.params;
-  const {movies} = useTMDB(endpoint, params);
+  const { categoryName, endpoint, params } = route.params;
+  const { movies } = useTMDB(endpoint, params);
 
-  const renderItem = ({item}: {item: any}) => (
+  const renderItem = ({ item }: { item: PopularMovie }) => (
     <View style={styles.card}>
-      <Image
-        source={{
-          uri: `${TMDB_IMAGES_BASE_URL}/w185${item.poster_path}`,
-        }}
+      <Image source={{
+        uri: `${TMDB_IMAGES_BASE_URL}/w185${item.poster_path}`,
+      }}
         style={styles.image}
       />
       <View style={styles.textContainer}>

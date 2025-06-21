@@ -1,8 +1,7 @@
-import {StyleSheet, View, useColorScheme} from 'react-native';
+import { StyleSheet, View, useColorScheme } from 'react-native';
 import HomeBanner from '../components/HomeBanner';
 import MovieRowSection from '../components/MovieRowSection';
 import Layout from '../components/Layout';
-import useTMDB from '../hooks/useTMDB';
 
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
@@ -17,14 +16,6 @@ const getStyles = (isDarkMode: boolean) =>
     },
   });
 export default function HomeScreen() {
-  const {movies: marvelMovies} = useTMDB('discover/movie', {
-    sort_by: 'popularity.desc',
-    with_companies: 420,
-  });
-  const {movies: topRatedMovies} = useTMDB('tv/top_rated', {
-    language: 'en-US',
-    page: 1,
-  });
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const styles = getStyles(isDarkMode);
@@ -33,8 +24,14 @@ export default function HomeScreen() {
     <Layout>
       <View style={styles.home}>
         <HomeBanner />
-        <MovieRowSection sectionName="Marvel Movies" movies={marvelMovies} />
-        <MovieRowSection sectionName="Top Rated Movies" movies={topRatedMovies} />
+        <MovieRowSection
+          sectionName="Marvel Movies"
+          moviesEndpoint="discover/movie"
+          endpointParams={{ sort_by: 'popularity.desc', with_companies: 420 }} />
+        <MovieRowSection
+          sectionName="Top Rated Movies"
+          moviesEndpoint="tv/top_rated"
+        />
       </View>
     </Layout>
   );
