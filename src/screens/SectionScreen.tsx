@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 
 export default function SectionScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'SectionScreen'>>();
-  const { categoryName, endpoint, params } = route.params;
+  const { categoryName, endpoint, params } = route.params ?? { };
   const { movies } = useTMDB(endpoint, params);
 
   const renderItem = ({ item }: { item: PopularMovie }) => (
