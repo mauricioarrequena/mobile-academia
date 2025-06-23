@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {FC} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, useColorScheme} from 'react-native';
 
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
@@ -36,15 +36,32 @@ const getStyles = (isDarkMode: boolean) =>
     textFont: {
       fontFamily: 'Gilroy-Bold',
     },
+    text: {
+      textAlign: 'center',
+      color: isDarkMode ? '#E0E0E0' : '#212121',
+    },
+    textLarge: {
+      fontSize: 20,
+    },
+    textSmall: {
+      fontSize: 16,
+    },
+    textBold: {
+      fontWeight: 'bold',
+    },
   });
 
 interface MovieRowSectionHeaderProps {
   categoryName: string;
   onPressSeeMore: () => void;
 }
-
-const MovieRowSectionHeader: FC<MovieRowSectionHeaderProps> = ({ categoryName, onPressSeeMore }) => {
-  const styles = getStyles(true);
+const MovieRowSectionHeader: FC<MovieRowSectionHeaderProps> = ({
+  categoryName,
+  onPressSeeMore,
+}) => {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const styles = getStyles(isDarkMode);
 
   return (
     <View style={styles.container}>
