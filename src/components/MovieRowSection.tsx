@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import {FC} from 'react';
 import {
   View,
   Text,
@@ -8,79 +8,89 @@ import {
   useColorScheme,
 } from 'react-native';
 import MovieRowSectionHeader from './MovieRowSectionHeader';
-import { TMDB_IMAGES_BASE_URL } from '@env';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/types'; // adjust path
+import {TMDB_IMAGES_BASE_URL} from '@env';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigation/types'; // adjust path
 import useTMDB from '../hooks/useTMDB';
 
-const styles = StyleSheet.create({
-  movieSection: {
-    gap: 15,
-    paddingHorizontal: 25,
-    // borderWidth: 1,
-    // borderColor: 'red',
-  },
-  carousel: {
-    // borderWidth: 3,
-    // borderColor: 'green',
-  },
-  flatList: {
-    // borderWidth: 5,
-    // borderColor: 'purple',
-  },
-  carouselSeparator: {
-    width: 28,
-    // borderWidth: 2,
-    // borderColor: 'orange',
-  },
-  movieItem: {
-    width: 100,
-    alignItems: 'center',
-    gap: 8,
-    // borderWidth: 2,
-    // borderColor: 'green',
-  },
-  image: {
-    width: 110,
-    height: 165,
-    borderRadius: 8,
-    overflow: 'hidden',
-    // borderWidth: 3,
-    // borderColor: 'yellow',
-  },
-  text: {
-    width: '100%',
-    textAlign: 'center',
-    color: 'black',
-    // borderWidth: 2,
-    // borderColor: 'blue',
-  },
-});
-const getThemedStyles = (isDarkMode: boolean) => StyleSheet.create({
-  movieSection: {
-    borderColor: isDarkMode ? '#888' : 'red',
-  },
-  text: {
-    color: isDarkMode ? '#fff' : 'black',
-  },
-});
-
+const getStyles = (isDarkMode: boolean) =>
+  StyleSheet.create({
+    movieSection: {
+      gap: 15,
+      paddingHorizontal: 25,
+      borderColor: isDarkMode ? '#888' : 'red',
+      // borderWidth: 1,
+      // borderColor: 'red',
+    },
+    carousel: {
+      // borderWidth: 3,
+      // borderColor: 'green',
+    },
+    flatList: {
+      // borderWidth: 5,
+      // borderColor: 'purple',
+    },
+    carouselSeparator: {
+      width: 28,
+      // borderWidth: 2,
+      // borderColor: 'orange',
+    },
+    movieItem: {
+      width: 100,
+      alignItems: 'center',
+      gap: 8,
+      // borderWidth: 2,
+      // borderColor: 'green',
+    },
+    image: {
+      width: 110,
+      height: 165,
+      borderRadius: 8,
+      overflow: 'hidden',
+      // borderWidth: 3,
+      // borderColor: 'yellow',
+    },
+    // text: {
+    //   width: '100%',
+    //   textAlign: 'center',
+    //   color: 'black',
+    //   // borderWidth: 2,
+    //   // borderColor: 'blue',
+    // },
+    text: {
+      textAlign: 'center',
+      color: isDarkMode ? '#E0E0E0' : '#212121',
+    },
+    textLarge: {
+      fontSize: 20,
+    },
+    textSmall: {
+      fontSize: 16,
+    },
+    textBold: {
+      fontWeight: 'bold',
+    },
+  });
 interface MovieSectionProps {
   sectionName: string;
   moviesEndpoint: string;
   endpointParams?: any;
 }
 const ItemSeparator = () => {
-  return <View style={styles.carouselSeparator} />;
+  return <View style={getStyles(true).carouselSeparator} />;
 };
-const MovieRowSection: FC<MovieSectionProps> = ({ sectionName, moviesEndpoint, endpointParams }) => {
-  const { movies } = useTMDB(moviesEndpoint, endpointParams);
+const MovieRowSection: FC<MovieSectionProps> = ({
+  sectionName,
+  moviesEndpoint,
+  endpointParams,
+}) => {
+  const {movies} = useTMDB(moviesEndpoint, endpointParams);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
-  const themedStyles = getThemedStyles(isDarkMode);
+  const styles = getStyles(isDarkMode);
   const displayedMovies = movies.slice(0, 5);
 
   const handleOnPressSeeMore = () => {
@@ -94,8 +104,11 @@ const MovieRowSection: FC<MovieSectionProps> = ({ sectionName, moviesEndpoint, e
   return (
     <View
       id="MovieCarouselSection"
-      style={[styles.movieSection, themedStyles.movieSection]}>
-      <MovieRowSectionHeader categoryName={sectionName} onPressSeeMore={handleOnPressSeeMore} />
+      style={[styles.movieSection, styles.movieSection]}>
+      <MovieRowSectionHeader
+        categoryName={sectionName}
+        onPressSeeMore={handleOnPressSeeMore}
+      />
       <View id="carousel" style={styles.carousel}>
         <FlatList
           data={displayedMovies}
@@ -104,7 +117,7 @@ const MovieRowSection: FC<MovieSectionProps> = ({ sectionName, moviesEndpoint, e
           showsHorizontalScrollIndicator={false}
           ItemSeparatorComponent={ItemSeparator}
           style={styles.flatList}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <View style={styles.movieItem}>
               <Image
                 source={{
@@ -112,7 +125,7 @@ const MovieRowSection: FC<MovieSectionProps> = ({ sectionName, moviesEndpoint, e
                 }}
                 style={styles.image}
               />
-              <Text style={[styles.text, themedStyles.text]} numberOfLines={1}>
+              <Text style={[styles.text, styles.textBold]} numberOfLines={1}>
                 {item.title ? item.title : item.name}
               </Text>
             </View>
