@@ -1,7 +1,8 @@
-import { StyleSheet, View, useColorScheme } from 'react-native';
+import {StyleSheet, View, useColorScheme} from 'react-native';
 import HomeBanner from '../components/HomeBanner';
 import MovieRowSection from '../components/MovieRowSection';
 import Layout from '../components/Layout';
+import Highlight from '../components/Highlight';
 
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
@@ -9,9 +10,10 @@ const getStyles = (isDarkMode: boolean) =>
       flex: 1,
       flexDirection: 'column',
       justifyContent: 'center',
-      gap: 32,
+      gap: 30,
+      paddingBottom: 30,
       backgroundColor: isDarkMode ? '#000' : '#fff',
-      // borderWidth: 1,
+      // borderWidth: 5,
       // borderColor: 'yellow',
     },
   });
@@ -27,11 +29,13 @@ export default function HomeScreen() {
         <MovieRowSection
           sectionName="Marvel Movies"
           moviesEndpoint="discover/movie"
-          endpointParams={{ sort_by: 'popularity.desc', with_companies: 420 }} />
+          endpointParams={{sort_by: 'popularity.desc', with_companies: 420}}
+        />
         <MovieRowSection
           sectionName="Top Rated Movies"
           moviesEndpoint="tv/top_rated"
         />
+        <Highlight />
       </View>
     </Layout>
   );
