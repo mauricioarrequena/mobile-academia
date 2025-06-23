@@ -8,16 +8,15 @@ import {
   Image,
 } from 'react-native';
 import useTMDB from '../hooks/useTMDB';
-import { TMDB_IMAGES_BASE_URL } from '@env';
-import { useRoute, RouteProp } from '@react-navigation/native';
-import { PopularMovie } from '../types/PopularMovie';
+import {TMDB_IMAGES_BASE_URL} from '@env';
+import {useRoute, RouteProp} from '@react-navigation/native';
+import {PopularMovie} from '../types/PopularMovie';
 
 type RootStackParamList = {
   Tabs: undefined;
-  SectionScreen: { categoryName: string; endpoint: string; params: any };
+  SectionScreen: {categoryName: string; endpoint: string; params: any};
 };
 
-// const data = Array.from({length: 20}, (_, i) => `Card ${i + 1}`);
 const NUMBER_OF_COLUMNS = 2;
 const SPACE = 10;
 const CARD_WIDTH =
@@ -26,12 +25,12 @@ const CARD_WIDTH =
 const styles = StyleSheet.create({
   sectionScreen: {
     flex: 1,
-    paddingTop: 80,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    paddingTop: 20,
     rowGap: 10,
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: 'yellow',
   },
   sectionScreenHeader: {
@@ -39,43 +38,48 @@ const styles = StyleSheet.create({
     marginLeft: SPACE,
     display: 'flex',
     flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: 'green ',
+    // borderWidth: 2,
+    // borderColor: 'green',
   },
-  container: {
-    paddingLeft: SPACE,
-    borderWidth: 1,
+  listContainer: {
+    rowGap: SPACE * 2,
+    paddingBottom: 30,
+    borderWidth: 2,
     borderColor: 'red',
-    rowGap: SPACE,
   },
   card: {
+    marginRight: SPACE / 1.5,
     width: CARD_WIDTH,
-    marginRight: SPACE * 2,
     height: 370,
     display: 'flex',
     flexDirection: 'column',
-    borderRadius: 8,
-    backgroundColor: '#eee',
-    borderColor: 'backgroundColor',
-    borderWidth: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    overflow: 'hidden',
+    borderWidth: 3,
+    borderColor: '#E0E0E0', // Material light outline
   },
   cardText: {
     fontSize: 16,
+    // borderWidth: 2,
+    // borderColor: 'orange',
   },
   movieItem: {
     width: 100,
     alignItems: 'center',
     gap: 8,
     // borderWidth: 2,
-    // borderColor: 'green',
+    // borderColor: 'brown',
   },
   image: {
     flexBasis: '90%',
     width: '100%',
-    borderRadius: 8,
     overflow: 'hidden',
-    // borderWidth: 3,
-    // borderColor: 'yellow',
+    // borderWidth: 2,
+    // borderColor: 'pink',
   },
   textContainer: {
     flex: 1,
@@ -84,25 +88,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'blue',
+    // borderWidth: 2,
+    // borderColor: 'blue',
   },
   text: {
     textAlign: 'center',
+    // padding: 4,
     color: 'black',
+    // borderWidth: 2,
+    // borderColor: 'teal',
   },
 });
 
 export default function SectionScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'SectionScreen'>>();
-  const { categoryName, endpoint, params } = route.params ?? { };
-  const { movies } = useTMDB(endpoint, params);
+  const {categoryName, endpoint, params} = route.params ?? {};
+  const {movies} = useTMDB(endpoint, params);
 
-  const renderItem = ({ item }: { item: PopularMovie }) => (
+  const renderItem = ({item}: {item: PopularMovie}) => (
     <View style={styles.card}>
-      <Image source={{
-        uri: `${TMDB_IMAGES_BASE_URL}/w185${item.poster_path}`,
-      }}
+      <Image
+        source={{
+          uri: `${TMDB_IMAGES_BASE_URL}/w185${item.poster_path}`,
+        }}
         style={styles.image}
       />
       <View style={styles.textContainer}>
@@ -121,7 +129,7 @@ export default function SectionScreen() {
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
         numColumns={NUMBER_OF_COLUMNS}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles.listContainer}
       />
     </View>
   );
