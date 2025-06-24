@@ -137,11 +137,7 @@ const MovieRowSection: FC<MovieSectionProps> = ({
               <Text style={[styles.text, styles.textBold]} numberOfLines={1}>
                 {item.title ? item.title : item.name}
               </Text>
-              <AddToWishlist
-                onPress={() => {}}
-                isSelected={false}
-                style={styles.wishlist}
-              />
+              <AddToWishlist item={item} style={styles.wishlist} />
             </View>
           )}
         />
