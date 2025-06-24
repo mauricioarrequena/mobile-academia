@@ -44,7 +44,7 @@ const getStyles = (isDarkMode: boolean) =>
       backgroundColor: '#D6B340',
     },
     buttonText: {
-      color: 'white',
+      color: isDarkMode ? '#121212' : 'white',
       fontWeight: '500',
       fontSize: 16,
     },
@@ -68,9 +68,7 @@ const Highlight = () => {
     <View style={styles.highlight}>
       <View testID="image-container" style={styles.imageContainer}>
         <Image
-          source={{
-            uri: 'https://placehold.co/600x400?text=save+up+to+50+black+friday',
-          }}
+          source={require('../../assets/images/disccount.jpg')}
           style={styles.image}
         />
       </View>
@@ -87,7 +85,13 @@ const Highlight = () => {
             styles.button,
             pressed && styles.buttonPressed,
           ]}>
-          <Text style={[styles.buttonText, styles.textBold]}>
+          <Text
+            style={[
+              styles.text,
+              styles.textSmall,
+              styles.textBold,
+              styles.buttonText,
+            ]}>
             Check details
           </Text>
         </Pressable>
