@@ -3,20 +3,23 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StatusBar, useColorScheme} from 'react-native';
 import MainNavigator from './src/navigation/MainNavigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {WishlistProvider} from './src/context/WishlistContext';
 
 function App(): React.JSX.Element {
   const colorScheme = useColorScheme();
 
   return (
     <SafeAreaProvider>
-      <GestureHandlerRootView>
-        <StatusBar
-          translucent
-          backgroundColor="transparent"
-          barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
-        />
-        <MainNavigator />
-      </GestureHandlerRootView>
+      <WishlistProvider>
+        <GestureHandlerRootView>
+          <StatusBar
+            translucent
+            backgroundColor="transparent"
+            barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+          />
+          <MainNavigator />
+        </GestureHandlerRootView>
+      </WishlistProvider>
     </SafeAreaProvider>
   );
 }

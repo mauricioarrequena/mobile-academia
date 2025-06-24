@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../navigation/types'; // adjust path
 import useTMDB from '../hooks/useTMDB';
+import AddToWishlist from './AddToWishlist';
 
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
@@ -71,6 +72,12 @@ const getStyles = (isDarkMode: boolean) =>
     textBold: {
       fontWeight: 'bold',
     },
+    wishlist: {
+      position: 'absolute',
+      right: 2,
+      top: 2,
+      backgroundColor: 'rgba(60, 59, 59, 0.6)',
+    },
   });
 interface MovieSectionProps {
   sectionName: string;
@@ -101,6 +108,8 @@ const MovieRowSection: FC<MovieSectionProps> = ({
     });
   };
 
+  const handleAddWishlist = () => {};
+
   return (
     <View
       id="MovieCarouselSection"
@@ -128,6 +137,11 @@ const MovieRowSection: FC<MovieSectionProps> = ({
               <Text style={[styles.text, styles.textBold]} numberOfLines={1}>
                 {item.title ? item.title : item.name}
               </Text>
+              <AddToWishlist
+                onPress={() => {}}
+                isSelected={false}
+                style={styles.wishlist}
+              />
             </View>
           )}
         />
