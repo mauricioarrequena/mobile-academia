@@ -1,5 +1,7 @@
-import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useWishlist} from '../context/WishlistContext';
 
 const styles = StyleSheet.create({
   whishlistScreen: {
@@ -67,42 +69,49 @@ const styles = StyleSheet.create({
 });
 
 const WishlistScreen = () => {
-  const mockEmpty = false;
+  const {wishlist, removeFromWishlist} = useWishlist();
+  const isEmpty = wishlist.length === 0;
 
   return (
     <View style={styles.whishlistScreen}>
       <View style={styles.wishlistScreenBody}>
-        {mockEmpty ? (
+        {isEmpty ? (
           <View style={styles.wishlistScreenBodyEmpty}>
-            <Text style={[styles.textLarge, styles.textBold]}>
-              Your Wishlist is Empty
-            </Text>
+            <View style={styles.enptyContentContainer}>
+              <Text style={[styles.textLarge, styles.textBold]}>
+                Your Wishlist is Empty
+              </Text>
+              <Icon name="heart-outline" size={50} color="gray" />
+            </View>
           </View>
         ) : (
           <View style={styles.wishlistScreenBodyWithItems}>
             <Text style={[styles.textLarge, styles.textBold]}>
-              Your Wishlist is full
+              Your Wishlist
             </Text>
-            <Text style={[styles.textLarge, styles.textBold]}>
-              Your Wishlist is full
-            </Text>
-            <View testID="cardContainer" style={styles.cardContainer}>
-              <View style={styles.cardContainerImage}>
-                <Text>image</Text>
+            {wishlist.map(movie => (
+              <View key={movie.id} style={styles.cardContainer}>
+                <View style={styles.cardContainerImage}>
+                  <Image
+                    source={{
+                      uri: `https://image.tmdb.org/t/p/w185${movie.poster_path}`,
+                    }}
+                    style={{width: 100, height: 150, borderRadius: 8}}
+                  />
+                </View>
+                <View style={styles.cardContainerInformation}>
+                  <Text style={styles.textSmall}>
+                    {movie.title || movie.name}
+                  </Text>
+                </View>
+                <View style={styles.cardContainerControls}>
+                  <TouchableOpacity
+                    onPress={() => removeFromWishlist(movie.id)}>
+                    <Icon name="trash" size={24} color="#4F8EF7" />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={styles.cardContainerInformation}>
-                <Text style={styles.textSmall}>cardInformation</Text>
-                <Text style={styles.textSmall}>spiderman no way home</Text>
-                <Text style={styles.textSmall}>2021 . action</Text>
-                <Text style={styles.textSmall}>⭐ 8.2</Text>
-                <Text style={styles.textSmall}>added three days ago</Text>
-              </View>
-              <View style={styles.cardContainerControls}>
-                <Text style={styles.textSmall}>Wach</Text>
-                <Text style={styles.textSmall}>Delete</Text>
-                <Icon name="trash" size={30} color="#4F8EF7" />
-              </View>
-            </View>
+            ))}
           </View>
         )}
       </View>
