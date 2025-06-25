@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Pressable,
   Image,
   useColorScheme,
+  Switch,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -19,8 +20,8 @@ const getStyles = (isDarkMode: boolean) =>
       // borderWidth: 1,
       // borderColor: 'red',
     },
-    textMedium: {
-      fontSize: 2,
+    textMediumBig: {
+      fontSize: 22,
     },
     textSmall: {
       fontSize: 16,
@@ -38,10 +39,6 @@ const getStyles = (isDarkMode: boolean) =>
     grayText: {
       color: 'gray',
     },
-    genericText: {
-      borderWidth: 1,
-      borderColor: 'black',
-    },
     borderGray: {
       borderWidth: 1,
       borderColor: '#ccc',
@@ -53,8 +50,8 @@ const getStyles = (isDarkMode: boolean) =>
       paddingVertical: 20,
       gap: 20,
       backgroundColor: isDarkMode ? '#121212' : '#fff',
-      borderWidth: 3,
-      borderColor: 'purple',
+      // borderWidth: 3,
+      // borderColor: 'purple',
     },
     userSectionContainer: {
       marginHorizontal: 20,
@@ -137,17 +134,17 @@ const getStyles = (isDarkMode: boolean) =>
       flexDirection: 'column',
       padding: 20,
       gap: 20,
-
-      borderWidth: 2,
-      borderColor: 'teal',
+      borderRadius: 10,
+      // borderWidth: 2,
+      // borderColor: 'teal',
     },
     darkModeContainer: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      borderWidth: 2,
-      borderColor: 'gray',
+      // borderWidth: 2,
+      // borderColor: 'purple',
     },
     darlkModeLeftSection: {
       display: 'flex',
@@ -164,8 +161,8 @@ const getStyles = (isDarkMode: boolean) =>
       // borderColor: 'navy',
     },
     darkModeToggleContainer: {
-      borderWidth: 2,
-      borderColor: 'maroon',
+      // borderWidth: 2,
+      // borderColor: 'maroon',
     },
     recentActivitySectionContainer: {
       marginHorizontal: 20,
@@ -173,12 +170,16 @@ const getStyles = (isDarkMode: boolean) =>
       flexDirection: 'column',
       padding: 20,
       gap: 20,
-      borderWidth: 2,
-      borderColor: 'olive',
+      borderRadius: 10,
+      // borderWidth: 2,
+      // borderColor: 'olive',
     },
     recentActivityList: {
-      borderWidth: 2,
-      borderColor: 'lime',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10,
+      // borderWidth: 2,
+      // borderColor: 'lime',
     },
   });
 
@@ -186,6 +187,7 @@ const ProfileScreen = () => {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const styles = getStyles(isDarkMode);
+  const [mockToggled, setMockToggled] = useState(false);
 
   return (
     <View style={styles.profileScreen}>
@@ -198,7 +200,9 @@ const ProfileScreen = () => {
         </View>
         <View testID="data contianer" style={styles.dataContainer}>
           <View testID="data text ontainer" style={styles.dataTextContainer}>
-            <Text style={[styles.textMedium, styles.textBold]}>John Doe</Text>
+            <Text style={[styles.textMediumBig, styles.textBold]}>
+              John Doe
+            </Text>
             <Text style={[styles.textSmall, styles.grayText]}>
               Movie Enthusiast
             </Text>
@@ -254,7 +258,7 @@ const ProfileScreen = () => {
         </View>
       </View>
 
-      <View style={styles.settingsSectionContainer}>
+      <View style={[styles.settingsSectionContainer, styles.borderGray]}>
         <Text style={[styles.textLarge, styles.textBold]}>Settings</Text>
         <View style={styles.darkModeContainer}>
           <View style={styles.darlkModeLeftSection}>
@@ -265,19 +269,29 @@ const ProfileScreen = () => {
             </View>
           </View>
           <View style={styles.darkModeToggleContainer}>
-            <Text style={styles.genericText}>toggle</Text>
+            <Switch
+              value={mockToggled}
+              onValueChange={() => {
+                setMockToggled(!mockToggled);
+              }}
+              trackColor={{false: '#ccc', true: '#4CAF50'}}
+              thumbColor={isDarkMode ? '#fff' : '#f4f3f4'}
+              ios_backgroundColor="#ccc"
+            />
           </View>
         </View>
       </View>
 
-      <View style={styles.recentActivitySectionContainer}>
-        <Text style={styles.genericText}>Recent Activity</Text>
+      <View style={[styles.recentActivitySectionContainer, styles.borderGray]}>
+        <Text style={[styles.textLarge, styles.textBold]}>Recent Activity</Text>
         <View style={styles.recentActivityList}>
-          <Text style={styles.genericText}>
+          <Text style={[styles.textExtraSmall]}>
             - Added "Dune: Part Two" to Watchlist
           </Text>
-          <Text style={styles.genericText}>Craeted "Sci-Fi" collection</Text>
-          <Text style={styles.genericText}>Watched "Openhaimer"</Text>
+          <Text style={[styles.textExtraSmall]}>
+            - Craeted "Sci-Fi" collection
+          </Text>
+          <Text style={[styles.textExtraSmall]}>- Watched "Openhaimer"</Text>
         </View>
       </View>
     </View>
