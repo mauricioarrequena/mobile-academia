@@ -76,7 +76,9 @@ const getStyles = (isDarkMode: boolean) =>
       position: 'absolute',
       right: 2,
       top: 2,
-      backgroundColor: 'rgba(60, 59, 59, 0.6)',
+      backgroundColor: 'rgba(102, 102, 102, 0.6)',
+      borderRadius: 12,
+      padding: 5,
     },
   });
 interface MovieSectionProps {
