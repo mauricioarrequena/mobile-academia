@@ -6,6 +6,7 @@ import {
   Alert,
   StyleSheet,
   useColorScheme,
+  Pressable,
 } from 'react-native';
 import {getDBConnection} from '../database/db';
 import {Collection} from '../types/Collection';
@@ -141,6 +142,15 @@ const CollectionsScreen = () => {
   return (
     <View>
       <Text>CollectionsScreen</Text>
+      <Pressable
+        onPress={() => setModalVisible(true)}
+        style={({pressed}) => [
+          styles.createButton,
+          pressed && styles.createButtonPressed,
+        ]}>
+        <Text style={styles.createButtonText}>Create Collection</Text>
+      </Pressable>
+
       <CollectionList
         collections={collections}
         collectionsLoading={loadingCollections}

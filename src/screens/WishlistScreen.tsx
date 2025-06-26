@@ -10,10 +10,10 @@ import {
   ListRenderItem,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useWishlist} from '../context/WishlistContext';
+import { useWishlist } from '../context/WishlistContext';
 import RemoveToWishList from '../components/RemoveToWishlist';
 import MovieCard from '../components/MovieCard';
-import {Movie} from '../types/Movie';
+import { Movie } from '../types/Movie';
 
 const screenWidth = Dimensions.get('window').width;
 const numColumns = 2;
@@ -59,13 +59,10 @@ const styles = StyleSheet.create({
 });
 
 const WishlistScreen = () => {
-  const {wishlist, removeFromWishlist} = useWishlist();
+  const { wishlist, removeFromWishlist } = useWishlist();
 
-  const renderItem: ListRenderItem<Movie> = ({item}) => (
-    <MovieCard
-      movie={item}
-      showTitle={false}
-      isWishListScreen={true}
+  const renderItem: ListRenderItem<Movie> = ({ item }) => (
+    <MovieCard movie={item} showTitle={false} isWishListScreen={true}
       containerStyle={{
         position: 'relative',
         width: itemWidth,
@@ -77,8 +74,7 @@ const WishlistScreen = () => {
         width: '100%',
         aspectRatio: 2 / 3,
         borderRadius: 8,
-      }}
-    />
+      }} />
   );
 
   return (
