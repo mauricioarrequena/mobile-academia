@@ -12,7 +12,7 @@ const getStyles = (isDarkMode: boolean) =>
       justifyContent: 'center',
       gap: 30,
       paddingBottom: 30,
-      backgroundColor: isDarkMode ? '#000' : '#fff',
+      backgroundColor: isDarkMode ? '#0a0a0b' : '#ffffff',
       // borderWidth: 5,
       // borderColor: 'yellow',
     },
