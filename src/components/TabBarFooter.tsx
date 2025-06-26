@@ -1,31 +1,22 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, useColorScheme} from 'react-native';
 import {useLinkBuilder} from '@react-navigation/native';
 import type {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {PlatformPressable} from '@react-navigation/elements';
-
-const styles = StyleSheet.create({
-  tabBarFooter: {
-    display: 'flex',
-    flexDirection: 'row',
-    // backgroundColor: 'purple',
-    backgroundColor: 'transparent',
-    padding: 10,
-  },
-  tabItem: {
-    flex: 1,
-    paddingVertical: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    // backgroundColor: 'white',
-    backgroundColor: 'transparent',
-    // borderWidth: 1,
-    // borderColor: 'red',
-  },
-});
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const TabBarFooter = ({state, descriptors, navigation}: BottomTabBarProps) => {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const styles = getStyles(isDark);
   const {buildHref} = useLinkBuilder();
+
+  const iconNames = [
+    'home-outline',
+    'search-outline',
+    'heart-outline',
+    'person-outline',
+  ];
+
   return (
     <View style={styles.tabBarFooter}>
       {state.routes.map((route, index) => {
@@ -53,17 +44,60 @@ const TabBarFooter = ({state, descriptors, navigation}: BottomTabBarProps) => {
 
         return (
           <PlatformPressable
-            style={styles.tabItem}
             key={route.key}
+            style={styles.tabItem}
             href={buildHref(route.name, route.params)}
             onPress={onPress}
             onLongPress={onLongPress}>
-            <Text>{label}</Text>
+            <Icon
+              name={iconNames[index]}
+              size={20}
+              color={
+                isFocused ? styles.iconActive.color : styles.iconInactive.color
+              }
+            />
+            <Text style={isFocused ? styles.labelActive : styles.labelInactive}>
+              {label}
+            </Text>
           </PlatformPressable>
         );
       })}
     </View>
   );
 };
+
+const getStyles = (isDark: boolean) =>
+  StyleSheet.create({
+    tabBarFooter: {
+      flexDirection: 'row',
+      borderTopWidth: 1,
+      borderColor: isDark ? '#444' : '#ccc',
+      backgroundColor: isDark ? '#0a0a0b' : '#ffffff',
+    },
+    tabItem: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: 8,
+      paddingBottom: 25,
+    },
+    iconInactive: {
+      color: isDark ? '#888' : '#555',
+    },
+    iconActive: {
+      color: isDark ? '#fff' : '#000',
+    },
+    labelInactive: {
+      fontSize: 12,
+      color: isDark ? '#aaa' : '#555',
+      marginTop: 4,
+    },
+    labelActive: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: isDark ? '#fff' : '#000',
+      marginTop: 4,
+    },
+  });
 
 export default TabBarFooter;
