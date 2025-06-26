@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TextInput, StyleSheet, FlatList} from 'react-native';
+import {View, Text, TextInput, StyleSheet, FlatList, useColorScheme} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import useTMDB from '../hooks/useTMDB';
 import MovieCard from '../components/MovieCard';
 
+const NUMBER_OF_COLUMNS = 3;
+
 const SearchScreen = () => {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const styles = getStyles(isDarkMode);
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
@@ -47,9 +52,10 @@ const SearchScreen = () => {
       <FlatList
         data={movies}
         keyExtractor={item => item.id.toString()}
-        numColumns={2}
+        numColumns={NUMBER_OF_COLUMNS}
         columnWrapperStyle={styles.columnWrapperStyle}
         contentContainerStyle={styles.contentContainerStyle}
+        showsVerticalScrollIndicator={false}
         renderItem={({item}) => (
           <MovieCard movie={item} showTitle={true} isWishListScreen={false} />
         )}
@@ -60,15 +66,15 @@ const SearchScreen = () => {
 
 export default SearchScreen;
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0d0d0d',
+    backgroundColor: isDarkMode ? 'black' : '#FFFFFF',
     paddingHorizontal: 16,
     paddingTop: 60,
   },
   title: {
-    color: '#fff',
+    color: isDarkMode ? '#FFFFFF' : 'black',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
@@ -76,7 +82,9 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1e1e1e',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
+    borderWidth: 2,
+    borderColor: '#F2C94C',
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 8,
@@ -87,14 +95,14 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    color: '#fff',
+    color: isDarkMode ? '#FFFFFF' : 'black',
     fontSize: 16,
   },
   columnWrapperStyle: {
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginBottom: 16,
   },
   contentContainerStyle: {
-    padding: 8
-  }
+    padding: 8,
+  },
 });

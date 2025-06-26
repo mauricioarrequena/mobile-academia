@@ -35,7 +35,7 @@ export default function HomeScreen() {
         <MovieRowSection
           sectionName="Top Rated Movies"
           moviesEndpoint="tv/top_rated"
-          showTitleMovie={false}
+          showTitleMovie={true}
         />
         <Highlight />
       </View>

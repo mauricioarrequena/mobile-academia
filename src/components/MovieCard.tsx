@@ -27,9 +27,9 @@ type MovieCardProps = {
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
     movieItem: {
-      width: 100,
-      alignItems: 'center',
-      gap: 8,
+        width: 110,
+        alignItems: 'center',
+        gap: 8,
     },
     image: {
       width: 110,

@@ -1,31 +1,22 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  Dimensions,
-  ListRenderItem,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { useWishlist } from '../context/WishlistContext';
-import RemoveToWishList from '../components/RemoveToWishlist';
+import {View, Text, StyleSheet, FlatList, Dimensions, useColorScheme} from 'react-native';
+import {useWishlist} from '../context/WishlistContext';
 import MovieCard from '../components/MovieCard';
-import { Movie } from '../types/Movie';
 
-const screenWidth = Dimensions.get('window').width;
-const numColumns = 2;
-const itemMargin = 16;
-const itemWidth = (screenWidth - itemMargin * (numColumns + 1)) / numColumns;
+const NUMBER_OF_COLUMNS = 3;
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   wishlistScreen: {
     flex: 1,
-    paddingTop: 32,
+    backgroundColor: isDarkMode ? 'black' : '#FFFFFF',
+    paddingTop: 60,
     paddingHorizontal: 16,
-    marginTop: 16,
+  },
+  title: {
+    color: isDarkMode ? '#FFFFFF' : 'black',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   emptyContainer: {
     flex: 1,
@@ -36,17 +27,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  movieCard: {
-    position: 'relative',
-    width: itemWidth,
-    margin: itemMargin / 2,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  movieImage: {
-    width: '100%',
-    aspectRatio: 2 / 3,
-    borderRadius: 8,
+  columnWrapperStyle: {
+    justifyContent: 'space-between',
+    marginBottom: 16,
   },
   trashIconWrapper: {
     position: 'absolute',
@@ -59,26 +42,14 @@ const styles = StyleSheet.create({
 });
 
 const WishlistScreen = () => {
-  const { wishlist, removeFromWishlist } = useWishlist();
-
-  const renderItem: ListRenderItem<Movie> = ({ item }) => (
-    <MovieCard movie={item} showTitle={false} isWishListScreen={true}
-      containerStyle={{
-        position: 'relative',
-        width: itemWidth,
-        margin: itemMargin / 2,
-        borderRadius: 8,
-        overflow: 'hidden',
-      }}
-      imageStyle={{
-        width: '100%',
-        aspectRatio: 2 / 3,
-        borderRadius: 8,
-      }} />
-  );
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const styles = getStyles(isDarkMode);
+  const {wishlist} = useWishlist();
 
   return (
     <View style={styles.wishlistScreen}>
+      <Text style={styles.title}>My Wishlist</Text>
       {wishlist.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>Your Wishlist is Empty</Text>
@@ -87,9 +58,12 @@ const WishlistScreen = () => {
         <FlatList
           data={wishlist}
           keyExtractor={item => item.id.toString()}
-          renderItem={renderItem}
-          numColumns={numColumns}
+          numColumns={NUMBER_OF_COLUMNS}
           showsVerticalScrollIndicator={false}
+          columnWrapperStyle={styles.columnWrapperStyle}
+          renderItem={({item}) => (
+            <MovieCard movie={item} showTitle={false} isWishListScreen={true} />
+          )}
         />
       )}
     </View>
