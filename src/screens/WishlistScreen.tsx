@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,96 +13,9 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useWishlist} from '../context/WishlistContext';
 import AddCollection from '../components/AddCollection';
-
-const WishlistScreen = () => {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
-
-  const {wishlist, removeFromWishlist} = useWishlist();
-  const isEmpty = wishlist.length === 0;
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const handleOnCancel = () => {
-    setModalVisible(false);
-  };
-
-  return (
-    <View style={styles.whishlistScreen}>
-      <Pressable
-        onPress={() => setModalVisible(true)}
-        style={({pressed}) => [
-          styles.createButton,
-          pressed && styles.createButtonPressed,
-        ]}>
-        <Text style={styles.createButtonText}>Create Collection</Text>
-      </Pressable>
-
-      <View style={styles.wishlistScreenBody}>
-        {isEmpty ? (
-          <View style={styles.wishlistScreenBodyEmpty}>
-            <View style={styles.enptyContentContainer}>
-              <Text style={[styles.textLarge, styles.textBold]}>
-                Your Wishlist is Empty
-              </Text>
-              <Icon
-                name="heart-outline"
-                size={50}
-                color={isDarkMode ? '#888' : 'gray'}
-              />
-            </View>
-          </View>
-        ) : (
-          <View style={styles.wishlistScreenBodyWithItems}>
-            <Text style={[styles.textLarge, styles.textBold]}>
-              Your Wishlist
-            </Text>
-            {wishlist.map(movie => (
-              <View key={movie.id} style={styles.cardContainer}>
-                <View style={styles.cardContainerImage}>
-                  <Image
-                    source={{
-                      uri: `https://image.tmdb.org/t/p/w185${movie.poster_path}`,
-                    }}
-                    style={styles.movieImage}
-                  />
-                </View>
-                <View style={styles.cardContainerInformation}>
-                  <Text style={styles.textSmall}>
-                    {movie.title || movie.name}
-                  </Text>
-                </View>
-                <View style={styles.cardContainerControls}>
-                  <TouchableOpacity
-                    onPress={() => removeFromWishlist(movie.id)}>
-                    <Icon name="trash" size={24} color="#4F8EF7" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ))}
-          </View>
-        )}
-      </View>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(false);
-        }}>
-        <View style={styles.overlay}>
-          <View style={styles.modalBox}>
-            <AddCollection onCancel={handleOnCancel} />
-          </View>
-        </View>
-      </Modal>
-    </View>
-  );
-};
-
-export default WishlistScreen;
+import CollectionList from '../components/CollectionList';
+import {Collection} from '../types/Collection';
+import {getDBConnection} from '../database/db';
 
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
@@ -196,3 +109,139 @@ const getStyles = (isDarkMode: boolean) =>
       padding: 20,
     },
   });
+
+const WishlistScreen = () => {
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [loadingCollections, setLoadingCollections] = useState(false);
+
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const styles = getStyles(isDarkMode);
+  const {wishlist, removeFromWishlist} = useWishlist();
+  const isEmpty = wishlist.length === 0;
+  const [modalVisible, setModalVisible] = useState(false);
+  // const mockCollections: Collection[] = [
+  //   {
+  //     id: 1,
+  //     name: 'My chill movies',
+  //     created_at: '2023-01-01',
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'My favorite movies',
+  //     created_at: '2023-01-02',
+  //   },
+  // ];
+
+  useEffect(() => {
+    loadCollections();
+  }, []);
+
+  const loadCollections = async () => {
+    try {
+      const database = await getDBConnection();
+      const results = await database.executeSql('SELECT * FROM Collections');
+      const rawRows = results[0].rows;
+      const items: Collection[] = [];
+      for (let i = 0; i < rawRows.length; i++) {
+        items.push(rawRows.item(i));
+      }
+      setCollections(items);
+      // // Fake loading delay of 2 seconds to show spinner
+      // await new Promise(resolve => setTimeout(resolve, 3000));
+    } catch (error) {
+      console.error('Error loading collections:', error);
+    } finally {
+      setLoadingCollections(false);
+    }
+  };
+
+  const handleOnCancel = () => {
+    setModalVisible(false);
+  };
+
+  return (
+    <View style={styles.whishlistScreen}>
+      <CollectionList
+        collections={collections}
+        collectionsLoading={loadingCollections}
+        reloadCollections={loadCollections}
+      />
+
+      <Pressable
+        onPress={() => setModalVisible(true)}
+        style={({pressed}) => [
+          styles.createButton,
+          pressed && styles.createButtonPressed,
+        ]}>
+        <Text style={styles.createButtonText}>Create Collection</Text>
+      </Pressable>
+
+      <View style={styles.wishlistScreenBody}>
+        {isEmpty ? (
+          <View style={styles.wishlistScreenBodyEmpty}>
+            <View style={styles.enptyContentContainer}>
+              <Text style={[styles.textLarge, styles.textBold]}>
+                Your Wishlist is Empty
+              </Text>
+              <Icon
+                name="heart-outline"
+                size={50}
+                color={isDarkMode ? '#888' : 'gray'}
+              />
+            </View>
+          </View>
+        ) : (
+          <View style={styles.wishlistScreenBodyWithItems}>
+            <Text style={[styles.textLarge, styles.textBold]}>
+              Your Wishlist
+            </Text>
+            {wishlist.map(movie => (
+              <View key={movie.id} style={styles.cardContainer}>
+                <View style={styles.cardContainerImage}>
+                  <Image
+                    source={{
+                      uri: `https://image.tmdb.org/t/p/w185${movie.poster_path}`,
+                    }}
+                    style={styles.movieImage}
+                  />
+                </View>
+                <View style={styles.cardContainerInformation}>
+                  <Text style={styles.textSmall}>
+                    {movie.title || movie.name}
+                  </Text>
+                </View>
+                <View style={styles.cardContainerControls}>
+                  <TouchableOpacity
+                    onPress={() => removeFromWishlist(movie.id)}>
+                    <Icon name="trash" size={24} color="#4F8EF7" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(false);
+        }}>
+        <View style={styles.overlay}>
+          <View style={styles.modalBox}>
+            <AddCollection
+              onCancel={handleOnCancel}
+              onSucress={loadCollections}
+            />
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+export default WishlistScreen;
