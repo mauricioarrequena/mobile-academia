@@ -1,90 +1,60 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, TextInput, StyleSheet, FlatList} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-const genres = [
-  'Action', 'Adventure', 'Animation', 'Comedy',
-  'Crime', 'Drama', 'Horror', 'Sci-Fi',
-  'Thriller', 'Romance',
-];
+import useTMDB from '../hooks/useTMDB';
+import MovieCard from '../components/MovieCard';
 
 const SearchScreen = () => {
-  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
-  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  const handleGenrePress = (genre: string) => {
-    setSelectedGenre(prev => (prev === genre ? null : genre));
-  };
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (query.length >= 3) {
+        setDebouncedQuery(query);
+      } else {
+        setDebouncedQuery('');
+      }
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
+  const {movies} = useTMDB(
+    debouncedQuery ? 'search/movie' : '',
+    debouncedQuery ? {query: debouncedQuery} : {},
+  );
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <Text style={styles.title}>Search</Text>
 
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#aaa" style={styles.searchIcon} />
+        <Ionicons
+          name="search"
+          size={20}
+          color="#aaa"
+          style={styles.searchIcon}
+        />
         <TextInput
+          value={query}
+          onChangeText={setQuery}
           placeholder="Search movies..."
           placeholderTextColor="#888"
           style={styles.input}
         />
-        <TouchableOpacity onPress={() => setShowFilters(prev => !prev)}>
-          <Ionicons name="options-outline" size={22} color="#aaa" />
-        </TouchableOpacity>
       </View>
 
-      {/* Filtros solo ocupan poco espacio */}
-      {showFilters && (
-        <View style={styles.filterBox}>
-          <Text style={styles.filterTitle}>Filter by Genre</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.genreContainer}
-          >
-            {genres.map((genre) => (
-              <TouchableOpacity
-                key={genre}
-                style={[
-                  styles.genrePill,
-                  selectedGenre === genre && styles.genrePillSelected,
-                ]}
-                onPress={() => handleGenrePress(genre)}
-              >
-                <Text
-                  style={[
-                    styles.genreText,
-                    selectedGenre === genre && styles.genreTextSelected,
-                  ]}
-                >
-                  {genre}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-      )}
-
-      {/* Contenido de estado vacío */}
-      <View style={styles.emptyState}>
-        <Ionicons name="search" size={40} color="#777" />
-        <Text style={styles.emptyTitle}>Search for movies</Text>
-        <Text style={styles.emptySubtitle}>
-          Find your favorite movies and discover new ones
-        </Text>
-      </View>
-    </KeyboardAvoidingView>
+      <FlatList
+        data={movies}
+        keyExtractor={item => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.columnWrapperStyle}
+        contentContainerStyle={styles.contentContainerStyle}
+        renderItem={({item}) => (
+          <MovieCard movie={item} showTitle={true} isWishListScreen={false} />
+        )}
+      />
+    </View>
   );
 };
 
@@ -120,52 +90,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
-  filterBox: {
-    marginBottom: 20,
+  columnWrapperStyle: {
+    justifyContent: 'space-around',
+    marginBottom: 16,
   },
-  filterTitle: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-    marginVertical: 10,
-  },
-  genreContainer: {
-    flexDirection: 'row',
-    columnGap: 10,
-  },
-  genrePill: {
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 20,
-    backgroundColor: '#333',
-  },
-  genrePillSelected: {
-    backgroundColor: '#666',
-  },
-  genreText: {
-    color: '#ccc',
-    fontSize: 14,
-  },
-  genreTextSelected: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  emptyTitle: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 20,
-  },
-  emptySubtitle: {
-    color: '#aaa',
-    fontSize: 14,
-    marginTop: 6,
-    textAlign: 'center',
-    paddingHorizontal: 20,
-  },
+  contentContainerStyle: {
+    padding: 8
+  }
 });
