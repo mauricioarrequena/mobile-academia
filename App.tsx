@@ -1,12 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StatusBar, useColorScheme} from 'react-native';
 import MainNavigator from './src/navigation/MainNavigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {WishlistProvider} from './src/context/WishlistContext';
+import {createTables} from './src/database/db';
 
 function App(): React.JSX.Element {
   const colorScheme = useColorScheme();
+
+  useEffect(() => {
+    const setupDb = async () => {
+      try {
+        await createTables();
+      } catch (error) {
+        console.error('Error setting up database:', error);
+      }
+    };
+
+    setupDb();
+  }, []);
 
   return (
     <SafeAreaProvider>
