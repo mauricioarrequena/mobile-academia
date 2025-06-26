@@ -1,87 +1,100 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-
-const styles = StyleSheet.create({
-  searchScreen: {
-    flex: 1,
-    flexDirection: 'column',
-    padding: 16,
-  },
-  inputContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    gap: 4,
-  },
-  input: {
-    height: 48,
-    paddingHorizontal: 0,
-    paddingVertical: 4,
-    fontSize: 16,
-    borderBottomWidth: 2,
-    borderBottomColor: '#6200ee',
-    color: '#000',
-  },
-  serachScreenBody: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    borderWidth: 1,
-    borderColor: 'green',
-  },
-  serachScreenBodyEmpty: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  enptyContentContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    borderWidth: 1,
-    color: 'black',
-  },
-  textLarge: {
-    fontSize: 20,
-  },
-  textSmall: {
-    fontSize: 16,
-  },
-  textBold: {
-    fontWeight: 'bold',
-  },
-});
+import React, {useEffect, useState} from 'react';
+import {View, Text, TextInput, StyleSheet, FlatList} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import useTMDB from '../hooks/useTMDB';
+import MovieCard from '../components/MovieCard';
 
 const SearchScreen = () => {
-  const [text, setText] = useState('');
+  const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (query.length >= 3) {
+        setDebouncedQuery(query);
+      } else {
+        setDebouncedQuery('');
+      }
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
+  const {movies} = useTMDB(
+    debouncedQuery ? 'search/movie' : '',
+    debouncedQuery ? {query: debouncedQuery} : {},
+  );
 
   return (
-    <View style={styles.searchScreen}>
-      <View style={styles.inputContainer}>
+    <View style={styles.container}>
+      <Text style={styles.title}>Search</Text>
+
+      <View style={styles.searchContainer}>
+        <Ionicons
+          name="search"
+          size={20}
+          color="#aaa"
+          style={styles.searchIcon}
+        />
         <TextInput
+          value={query}
+          onChangeText={setQuery}
+          placeholder="Search movies..."
+          placeholderTextColor="#888"
           style={styles.input}
-          placeholder="Search movies"
-          placeholderTextColor="#aaa"
-          value={text}
-          onChangeText={setText}
         />
       </View>
-      <View style={[styles.serachScreenBody, styles.serachScreenBodyEmpty]}>
-        <View style={styles.enptyContentContainer}>
-          <Icon name="search" size={30} color="#4F8EF7" />
-          <Text style={[styles.textLarge, styles.textBold]}>
-            Search for Movies
-          </Text>
-          <Text style={styles.textSmall}>
-            Find your favorite movies and discover new ones
-          </Text>
-        </View>
-      </View>
+
+      <FlatList
+        data={movies}
+        keyExtractor={item => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.columnWrapperStyle}
+        contentContainerStyle={styles.contentContainerStyle}
+        renderItem={({item}) => (
+          <MovieCard movie={item} showTitle={true} isWishListScreen={false} />
+        )}
+      />
     </View>
   );
 };
 
 export default SearchScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0d0d0d',
+    paddingHorizontal: 16,
+    paddingTop: 60,
+  },
+  title: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1e1e1e',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginBottom: 10,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  input: {
+    flex: 1,
+    color: '#fff',
+    fontSize: 16,
+  },
+  columnWrapperStyle: {
+    justifyContent: 'space-around',
+    marginBottom: 16,
+  },
+  contentContainerStyle: {
+    padding: 8
+  }
+});

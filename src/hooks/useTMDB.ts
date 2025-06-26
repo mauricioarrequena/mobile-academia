@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {TMDB_ACCESS_TOKEN, TMDB_URL} from '@env';
 import axios from 'axios';
-import { Movie } from '../types/Movie';
+import {Movie} from '../types/Movie';
 
 type Params = Record<string, any>;
 
@@ -11,6 +11,11 @@ const useTMDB = (endpoint: string, extraParams: Params = {}) => {
 
   useEffect(() => {
     const getMovies = async () => {
+      if (!endpoint) {
+        setMovies([]);
+        return;
+      }
+
       const baseParams = {language: 'en-US', page: 1};
       const response = await axios.get(`${TMDB_URL}/${endpoint}`, {
         headers: {
