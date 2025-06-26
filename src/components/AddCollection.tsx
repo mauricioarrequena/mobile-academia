@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import {
   View,
   Text,
@@ -7,73 +7,11 @@ import {
   StyleSheet,
   useColorScheme,
 } from 'react-native';
-import { getDBConnection } from '../database/db';
-
-interface AddCollectionProps {
-  onCancel: () => void;
-}
-
-export default function AddCollection({ onCancel }: AddCollectionProps) {
-  const [collectionName, setCollectionName] = useState('');
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
-
-  const handleAddCollection = async () => {
-    if (!collectionName.trim()) return;
-
-    try {
-      const db = await getDBConnection();
-      await db.executeSql('INSERT INTO Collections (name) VALUES (?)', [
-        collectionName,
-      ]);
-      setCollectionName('');
-    } catch (error) {
-      console.error('Failed to insert collection:', error);
-    }
-  };
-
-  return (
-    <View style={styles.card}>
-      <Text style={styles.title}>Create collection</Text>
-      <Text style={styles.subtitle}>Organize your favorite movies</Text>
-
-      <Text style={styles.label}>Collection name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="My chill movies"
-        placeholderTextColor={isDarkMode ? '#aaa' : '#999'}
-        maxLength={50}
-        value={collectionName}
-        onChangeText={setCollectionName}
-      />
-      <Text style={styles.charCounter}>
-        {collectionName.length}/50 characters
-      </Text>
-
-      <View style={styles.buttonRow}>
-        <Pressable style={styles.textButton} onPress={onCancel}>
-          <Text style={styles.textButtonText}>Cancel</Text>
-        </Pressable>
-
-        <Pressable style={styles.filledButton} onPress={handleAddCollection}>
-          <Text style={styles.filledButtonText}>Create collection</Text>
-        </Pressable>
-      </View>
-    </View>
-  );
-}
+import {getDBConnection} from '../database/db';
 
 function getStyles(isDarkMode: boolean) {
   return StyleSheet.create({
-    card: {
-      // margin: 20,
-      // padding: 20,
-      // backgroundColor: isDarkMode ? '#0a0a0b' : '#ffffff',
-      // borderColor: isDarkMode ? '#333' : '#ddd',
-      // borderRadius: 12,
-      // borderWidth: 1,
-    },
+    card: {},
     title: {
       fontSize: 20,
       fontWeight: '600',
@@ -135,4 +73,67 @@ function getStyles(isDarkMode: boolean) {
       fontWeight: '500',
     },
   });
+}
+
+interface AddCollectionProps {
+  onCancel: () => void;
+  onSucress: () => void;
+}
+
+export default function AddCollection({
+  onCancel,
+  onSucress,
+}: AddCollectionProps) {
+  const [collectionName, setCollectionName] = useState('');
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const styles = getStyles(isDarkMode);
+
+  const handleAddCollection = async () => {
+    if (!collectionName.trim()) {
+      return;
+    }
+
+    try {
+      const db = await getDBConnection();
+      await db.executeSql('INSERT INTO Collections (name) VALUES (?)', [
+        collectionName,
+      ]);
+      setCollectionName('');
+      onSucress();
+      onCancel();
+    } catch (error) {
+      console.error('Failed to insert collection:', error);
+    }
+  };
+
+  return (
+    <View style={styles.card}>
+      <Text style={styles.title}>Create collection</Text>
+      <Text style={styles.subtitle}>Organize your favorite movies</Text>
+
+      <Text style={styles.label}>Collection name</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="My chill movies"
+        placeholderTextColor={isDarkMode ? '#aaa' : '#999'}
+        maxLength={50}
+        value={collectionName}
+        onChangeText={setCollectionName}
+      />
+      <Text style={styles.charCounter}>
+        {collectionName.length}/50 characters
+      </Text>
+
+      <View style={styles.buttonRow}>
+        <Pressable style={styles.textButton} onPress={onCancel}>
+          <Text style={styles.textButtonText}>Cancel</Text>
+        </Pressable>
+
+        <Pressable style={styles.filledButton} onPress={handleAddCollection}>
+          <Text style={styles.filledButtonText}>Create collection</Text>
+        </Pressable>
+      </View>
+    </View>
+  );
 }
