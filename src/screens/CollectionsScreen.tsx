@@ -1,21 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  Modal,
-  Alert,
   StyleSheet,
-  useColorScheme,
   Pressable,
+  Modal,
+  useColorScheme,
 } from 'react-native';
-import {getDBConnection} from '../database/db';
-import {Collection} from '../types/Collection';
 import AddCollection from '../components/AddCollection';
 import CollectionList from '../components/CollectionList';
+import {getDBConnection} from '../database/db';
+import {Collection} from '../types/Collection';
 
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
-    whishlistScreen: {
+    collectionsScreen: {
       flex: 1,
       flexDirection: 'column',
       padding: 16,
@@ -39,54 +38,6 @@ const getStyles = (isDarkMode: boolean) =>
       color: '#6200ee',
       fontWeight: '500',
     },
-    wishlistScreenBody: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    wishlistScreenBodyEmpty: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    enptyContentContainer: {
-      alignItems: 'center',
-    },
-    wishlistScreenBodyWithItems: {
-      flex: 1,
-      flexDirection: 'column',
-      gap: 16,
-    },
-    cardContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 16,
-      marginBottom: 12,
-    },
-    cardContainerImage: {},
-    cardContainerInformation: {
-      flex: 1,
-      flexDirection: 'column',
-    },
-    cardContainerControls: {
-      justifyContent: 'flex-start',
-    },
-    movieImage: {
-      width: 100,
-      height: 150,
-      borderRadius: 8,
-    },
-    textLarge: {
-      fontSize: 20,
-      color: isDarkMode ? '#ffffff' : '#000000',
-    },
-    textSmall: {
-      fontSize: 16,
-      color: isDarkMode ? '#cccccc' : '#333333',
-    },
-    textBold: {
-      fontWeight: 'bold',
-    },
     overlay: {
       position: 'absolute',
       top: 0,
@@ -106,13 +57,13 @@ const getStyles = (isDarkMode: boolean) =>
     },
   });
 
-const CollectionsScreen = () => {
+const WishlistScreen = () => {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loadingCollections, setLoadingCollections] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const styles = getStyles(isDarkMode);
-  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     loadCollections();
@@ -140,8 +91,7 @@ const CollectionsScreen = () => {
   };
 
   return (
-    <View>
-      <Text>CollectionsScreen</Text>
+    <View style={styles.collectionsScreen}>
       <Pressable
         onPress={() => setModalVisible(true)}
         style={({pressed}) => [
@@ -156,14 +106,8 @@ const CollectionsScreen = () => {
         collectionsLoading={loadingCollections}
         reloadCollections={loadCollections}
       />
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(false);
-        }}>
+
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.overlay}>
           <View style={styles.modalBox}>
             <AddCollection
@@ -177,4 +121,4 @@ const CollectionsScreen = () => {
   );
 };
 
-export default CollectionsScreen;
+export default WishlistScreen;
