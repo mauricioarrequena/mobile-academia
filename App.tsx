@@ -6,6 +6,9 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {WishlistProvider} from './src/context/WishlistContext';
 import {createTables} from './src/database/db';
 
+const backgroundColorLigt = '#ffffff';
+const backgroundColorDark = '#0a0a0b';
+
 function App(): React.JSX.Element {
   const colorScheme = useColorScheme();
 
@@ -22,7 +25,15 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider
+      style={{
+        flex: 1,
+        // padding: 10,
+        // backgroundColor: 'lighblue',
+        // backgroundColor: 'transparent', // Ensure the background is transparent
+        backgroundColor:
+          colorScheme === 'dark' ? backgroundColorDark : backgroundColorLigt,
+      }}>
       <WishlistProvider>
         <GestureHandlerRootView>
           <StatusBar

@@ -7,8 +7,9 @@ const styles = StyleSheet.create({
   tabBarFooter: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: 'purple',
-    paddingHorizontal: 10,
+    // backgroundColor: 'purple',
+    backgroundColor: 'transparent',
+    padding: 10,
   },
   tabItem: {
     flex: 1,
@@ -16,9 +17,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'red',
+    // backgroundColor: 'white',
+    backgroundColor: 'transparent',
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
 });
 

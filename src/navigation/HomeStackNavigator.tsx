@@ -5,7 +5,7 @@ import SectionScreen from '../screens/SectionScreen';
 const StackNavigator = createNativeStackNavigator();
 const HomeStackNavigator = () => {
   return (
-    <StackNavigator.Navigator>
+    <StackNavigator.Navigator screenOptions={{headerShown: false}}>
       <StackNavigator.Screen
         name="Home"
         component={HomeScreen}
