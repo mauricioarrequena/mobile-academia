@@ -11,7 +11,7 @@ import {
 import useTMDB from '../hooks/useTMDB';
 import {TMDB_IMAGES_BASE_URL} from '@env';
 import {useRoute, RouteProp} from '@react-navigation/native';
-import {PopularMovie} from '../types/PopularMovie';
+import { Movie } from '../types/Movie';
 
 type RootStackParamList = {
   Tabs: undefined;
@@ -104,7 +104,7 @@ export default function SectionScreen() {
   const isDarkMode = colorScheme === 'dark';
   const styles = getStyles(isDarkMode);
 
-  const renderItem = ({item}: {item: PopularMovie}) => (
+  const renderItem = ({item}: {item: Movie}) => (
     <View style={styles.card}>
       <Image
         source={{

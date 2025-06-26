@@ -1,11 +1,5 @@
 import React, {createContext, useContext, useState, ReactNode} from 'react';
-
-export interface Movie {
-  id: number;
-  title: string;
-  name?: string;
-  poster_path: string;
-}
+import { Movie } from '../types/Movie';
 
 interface WishlistContextType {
   wishlist: Movie[];
