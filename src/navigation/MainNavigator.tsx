@@ -9,6 +9,7 @@ import HomeStackNavigator from './HomeStackNavigator';
 import SearchScreen from '../screens/SearchScreen';
 import WishlistScreen from '../screens/WishlistScreen';
 import ProfileStackNavigator from './ProfileStackNavigator';
+import MockMovieDetails from '../screens/MockMovieDetails';
 
 const TabNavigator = createBottomTabNavigator();
 
@@ -43,7 +44,7 @@ const MainNavigator = () => {
         />
         <TabNavigator.Screen
           name="Wishlist"
-          component={WishlistScreen}
+          component={MockMovieDetails}
           options={{title: 'Wishlist'}}
         />
         <TabNavigator.Screen

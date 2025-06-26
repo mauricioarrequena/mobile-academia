@@ -28,4 +28,14 @@ export const createTables = async () => {
       FOREIGN KEY(collection_id) REFERENCES Collections(id)
     );
   `);
+
+  await db.executeSql(`
+    CREATE TABLE IF NOT EXISTS Movies (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,       -- Local DB ID
+      apiId INTEGER UNIQUE NOT NULL,              -- Unique movie ID from external API
+      title TEXT NOT NULL,
+      overview TEXT,
+      release_date TEXT
+    );
+  `);
 };

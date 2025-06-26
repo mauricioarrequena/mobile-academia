@@ -3,10 +3,12 @@ import {View, Text, Pressable, StyleSheet, useColorScheme} from 'react-native';
 import {Collection} from '../types/Collection';
 
 const styles = StyleSheet.create({
-  card: {
+  collectionListItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    gap: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     backgroundColor: '#fff',
     borderRadius: 12,
     borderWidth: 1,
@@ -19,25 +21,42 @@ const styles = StyleSheet.create({
   cardPressed: {
     backgroundColor: '#f5f5f5',
   },
-  content: {
-    flex: 1,
+  textContentContainer: {
+    display: 'flex',
+    flexDirection: 'column',
   },
-  name: {
+  textLarge: {
+    fontSize: 20,
+  },
+  textRegular: {
     fontSize: 16,
-    fontWeight: '400',
-    color: '#000',
   },
-  date: {
+  textSmall: {
+    fontSize: 14,
+  },
+  textExtraSmall: {
     fontSize: 12,
-    color: '#666',
-    marginTop: 4,
   },
-  textDark: {
-    color: '#fff',
+  textBold: {
+    fontWeight: 'bold',
   },
-  textMutedDark: {
-    color: '#aaa',
-  },
+
+  // name: {
+  //   fontSize: 16,
+  //   fontWeight: '400',
+  //   color: '#000',
+  // },
+  // date: {
+  //   fontSize: 12,
+  //   color: '#666',
+  //   marginTop: 4,
+  // },
+  // textDark: {
+  //   color: '#fff',
+  // },
+  // textMutedDark: {
+  //   color: '#aaa',
+  // },
 });
 
 interface CollectionListItemProps {
@@ -49,25 +68,19 @@ const CollectionListItem = ({colelction: movie}: CollectionListItemProps) => {
   const isDark = colorScheme === 'dark';
 
   return (
-    <Pressable
-      android_ripple={{color: isDark ? '#333' : '#ddd'}}
-      style={({pressed}) => [
-        styles.card,
-        isDark && styles.cardDark,
-        pressed && styles.cardPressed,
-      ]}
-      onPress={() => {
-        // Add navigation or selection logic here
-      }}>
-      <View style={styles.content}>
-        <Text style={[styles.name, isDark && styles.textDark]}>
+    <View style={styles.collectionListItem}>
+      <View>
+        <Text>radio</Text>
+      </View>
+      <View style={styles.textContentContainer}>
+        <Text style={[styles.textSmall, styles.textBold]}>
           {movie.name}
         </Text>
-        <Text style={[styles.date, isDark && styles.textMutedDark]}>
+        <Text style={[styles.textExtraSmall]}>
           0 movies
         </Text>
       </View>
-    </Pressable>
+    </View>
   );
 };
 
