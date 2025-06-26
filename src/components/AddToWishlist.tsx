@@ -1,7 +1,8 @@
 import React from 'react';
 import {TouchableOpacity, ViewStyle} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {Movie, useWishlist} from '../context/WishlistContext';
+import {useWishlist} from '../context/WishlistContext';
+import { Movie } from '../types/Movie';
 
 interface WishlistProps {
   item: Movie;

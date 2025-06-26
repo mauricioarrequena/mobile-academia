@@ -1,4 +1,4 @@
-export interface PopularMovie {
+export interface Movie {
   id: number;
   overview: string;
   release_date: string;

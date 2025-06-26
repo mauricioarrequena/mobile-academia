@@ -1,12 +1,12 @@
 import {useEffect, useState} from 'react';
 import {TMDB_ACCESS_TOKEN, TMDB_URL} from '@env';
 import axios from 'axios';
-import {PopularMovie} from '../types/PopularMovie';
+import { Movie } from '../types/Movie';
 
 type Params = Record<string, any>;
 
 const useTMDB = (endpoint: string, extraParams: Params = {}) => {
-  const [movies, setMovies] = useState<Array<PopularMovie>>([]);
+  const [movies, setMovies] = useState<Array<Movie>>([]);
   const stringExtraParams = JSON.stringify(extraParams);
 
   useEffect(() => {

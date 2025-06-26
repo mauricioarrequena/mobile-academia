@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import { FC } from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,13 @@ import {
   useColorScheme,
 } from 'react-native';
 import MovieRowSectionHeader from './MovieRowSectionHeader';
-import {TMDB_IMAGES_BASE_URL} from '@env';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../navigation/types'; // adjust path
+import { TMDB_IMAGES_BASE_URL } from '@env';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/types'; // adjust path
 import useTMDB from '../hooks/useTMDB';
 import AddToWishlist from './AddToWishlist';
+import MovieCard from './MovieCard';
 
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
@@ -37,21 +38,6 @@ const getStyles = (isDarkMode: boolean) =>
       // borderWidth: 2,
       // borderColor: 'orange',
     },
-    movieItem: {
-      width: 100,
-      alignItems: 'center',
-      gap: 8,
-      // borderWidth: 2,
-      // borderColor: 'green',
-    },
-    image: {
-      width: 110,
-      height: 165,
-      borderRadius: 8,
-      overflow: 'hidden',
-      // borderWidth: 3,
-      // borderColor: 'yellow',
-    },
     // text: {
     //   width: '100%',
     //   textAlign: 'center',
@@ -59,32 +45,18 @@ const getStyles = (isDarkMode: boolean) =>
     //   // borderWidth: 2,
     //   // borderColor: 'blue',
     // },
-    text: {
-      textAlign: 'center',
-      color: isDarkMode ? '#E0E0E0' : '#212121',
-    },
     textLarge: {
       fontSize: 20,
     },
     textSmall: {
       fontSize: 16,
     },
-    textBold: {
-      fontWeight: 'bold',
-    },
-    wishlist: {
-      position: 'absolute',
-      right: 2,
-      top: 2,
-      backgroundColor: 'rgba(102, 102, 102, 0.6)',
-      borderRadius: 12,
-      padding: 5,
-    },
   });
 interface MovieSectionProps {
   sectionName: string;
   moviesEndpoint: string;
   endpointParams?: any;
+  showTitleMovie: boolean;
 }
 const ItemSeparator = () => {
   return <View style={getStyles(true).carouselSeparator} />;
@@ -93,8 +65,9 @@ const MovieRowSection: FC<MovieSectionProps> = ({
   sectionName,
   moviesEndpoint,
   endpointParams,
+  showTitleMovie
 }) => {
-  const {movies} = useTMDB(moviesEndpoint, endpointParams);
+  const { movies } = useTMDB(moviesEndpoint, endpointParams);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const colorScheme = useColorScheme();
@@ -109,8 +82,6 @@ const MovieRowSection: FC<MovieSectionProps> = ({
       params: endpointParams,
     });
   };
-
-  const handleAddWishlist = () => {};
 
   return (
     <View
@@ -128,19 +99,8 @@ const MovieRowSection: FC<MovieSectionProps> = ({
           showsHorizontalScrollIndicator={false}
           ItemSeparatorComponent={ItemSeparator}
           style={styles.flatList}
-          renderItem={({item}) => (
-            <View style={styles.movieItem}>
-              <Image
-                source={{
-                  uri: `${TMDB_IMAGES_BASE_URL}/w185${item.poster_path}`,
-                }}
-                style={styles.image}
-              />
-              <Text style={[styles.text, styles.textBold]} numberOfLines={1}>
-                {item.title ? item.title : item.name}
-              </Text>
-              <AddToWishlist item={item} style={styles.wishlist} />
-            </View>
+          renderItem={({ item }) => (
+            <MovieCard movie={item} showTitle={showTitleMovie} isWishListScreen={false} />
           )}
         />
       </View>

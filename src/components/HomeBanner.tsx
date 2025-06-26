@@ -9,7 +9,6 @@ import {
   useColorScheme,
   Modal,
 } from 'react-native';
-import {PopularMovie} from '../types/PopularMovie';
 import useTMDB from '../hooks/useTMDB';
 import {TMDB_IMAGES_BASE_URL} from '@env';
 import Carousel, {
@@ -18,6 +17,7 @@ import Carousel, {
 } from 'react-native-reanimated-carousel';
 import {useSharedValue} from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
+import { Movie } from '../types/Movie';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 const BANNER_HEIGHT = 495;
@@ -187,8 +187,8 @@ const getStyles = (isDarkMode: boolean) => {
 };
 
 const HomeBanner = () => {
-  const [bannerMovies, setBannerMovies] = useState<Array<PopularMovie>>([]);
-  const [selectedMovie, setSelectedMovie] = useState<PopularMovie | null>(null);
+  const [bannerMovies, setBannerMovies] = useState<Array<Movie>>([]);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const carouselRef = useRef<ICarouselInstance>(null);
   const progress = useSharedValue(0);
