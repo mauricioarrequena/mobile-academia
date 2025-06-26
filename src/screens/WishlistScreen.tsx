@@ -10,7 +10,10 @@ import {
   ListRenderItem,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Movie, useWishlist} from '../context/WishlistContext';
+import { useWishlist } from '../context/WishlistContext';
+import RemoveToWishList from '../components/RemoveToWishlist';
+import MovieCard from '../components/MovieCard';
+import { Movie } from '../types/Movie';
 
 const screenWidth = Dimensions.get('window').width;
 const numColumns = 2;
@@ -56,23 +59,22 @@ const styles = StyleSheet.create({
 });
 
 const WishlistScreen = () => {
-  const {wishlist, removeFromWishlist} = useWishlist();
+  const { wishlist, removeFromWishlist } = useWishlist();
 
-  const renderItem: ListRenderItem<Movie> = ({item}) => (
-    <View style={styles.movieCard}>
-      <Image
-        source={{
-          uri: `https://image.tmdb.org/t/p/w185${item.poster_path}`,
-        }}
-        style={styles.movieImage}
-        resizeMode="cover"
-      />
-      <TouchableOpacity
-        onPress={() => removeFromWishlist(item.id)}
-        style={styles.trashIconWrapper}>
-        <Icon name="trash" size={16} color="#fff" />
-      </TouchableOpacity>
-    </View>
+  const renderItem: ListRenderItem<Movie> = ({ item }) => (
+    <MovieCard movie={item} showTitle={false} isWishListScreen={true}
+      containerStyle={{
+        position: 'relative',
+        width: itemWidth,
+        margin: itemMargin / 2,
+        borderRadius: 8,
+        overflow: 'hidden',
+      }}
+      imageStyle={{
+        width: '100%',
+        aspectRatio: 2 / 3,
+        borderRadius: 8,
+      }} />
   );
 
   return (

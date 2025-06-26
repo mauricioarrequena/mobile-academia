@@ -30,10 +30,12 @@ export default function HomeScreen() {
           sectionName="Marvel Movies"
           moviesEndpoint="discover/movie"
           endpointParams={{sort_by: 'popularity.desc', with_companies: 420}}
+          showTitleMovie={true}
         />
         <MovieRowSection
           sectionName="Top Rated Movies"
           moviesEndpoint="tv/top_rated"
+          showTitleMovie={false}
         />
         <Highlight />
       </View>
