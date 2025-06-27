@@ -14,13 +14,14 @@ import useTMDBById from '../hooks/useTMDBById';
 import {TMDB_IMAGES_BASE_URL} from '@env';
 import {useThemedStyles} from '../hooks/useThemedStyles';
 import {ThemeColors} from '../types/ThemeColors';
+import {Linking} from 'react-native';
 
 const screenHeight = Dimensions.get('window').height;
 
 const MovieDetail = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'MovieDetail'>>();
   const {id} = route.params;
-  const {movie} = useTMDBById(id);
+  const {movie, trailerUrl} = useTMDBById(id);
   const {colors} = useThemedStyles();
   const styles = getStyles(colors);
 
@@ -30,6 +31,13 @@ const MovieDetail = () => {
     );
   }
 
+  const handleWatchTrailer = () => {
+    if (trailerUrl) {
+      Linking.openURL(trailerUrl);
+    } else {
+      console.warn('Trailer not available.');
+    }
+  };
   return (
     <ScrollView contentContainerStyle={[styles.container]}>
       <View style={styles.imageContainer}>
@@ -43,7 +51,9 @@ const MovieDetail = () => {
           resizeMode="cover"
         />
         <View style={styles.overlay}>
-          <Text style={[styles.title, styles.textColorWhite]}>{movie.title}</Text>
+          <Text style={[styles.title, styles.textColorWhite]}>
+            {movie.title}
+          </Text>
           <View style={styles.metaRow}>
             <Text style={[styles.meta, styles.textColorWhite]}>
               ⭐️ {movie.vote_average?.toFixed(1)}
@@ -65,7 +75,7 @@ const MovieDetail = () => {
       </View>
 
       <View style={styles.content}>
-        <TouchableOpacity style={[styles.button]}>
+        <TouchableOpacity style={[styles.button]} onPress={handleWatchTrailer}>
           <Text style={[styles.buttonText]}>Watch Trailer</Text>
         </TouchableOpacity>
 
