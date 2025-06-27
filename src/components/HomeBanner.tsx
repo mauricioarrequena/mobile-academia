@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,9 @@ import Carousel, {
 import {useSharedValue} from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
 import { Movie } from '../types/Movie';
+import { useNavigation } from '@react-navigation/native';
+import { MainTabParamList } from '../navigation/types';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 const BANNER_HEIGHT = 495;
@@ -45,18 +48,10 @@ const getStyles = (isDarkMode: boolean) => {
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
-      // borderWidth: 5,
-      // borderColor: 'green',
-    },
-    carousel: {
-      // borderWidth: 3,
-      // borderColor: 'red',
     },
     imagePoster: {
       resizeMode: 'cover',
       height: '100%',
-      // borderWidth: 4,
-      // borderColor: 'coral',
     },
     blackLinearGradient: {
       position: 'absolute',
@@ -73,26 +68,21 @@ const getStyles = (isDarkMode: boolean) => {
       display: 'flex',
       flexDirection: 'column',
       gap: 25,
-      // borderWidth: 4,
-      // borderColor: 'orange',
     },
     controlsContainer: {
       display: 'flex',
       gap: 20,
-      // borderWidth: 3,
-      // borderColor: 'purple',
     },
     sectionsContainer: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
       gap: 40,
-      // borderWidth: 3,
-      // borderColor: 'green',
     },
     sectionText: {
       fontSize: 16,
       fontWeight: '700',
+      fontFamily: 'Gilroy-Medium',
       color: '#ccc',
     },
     buttonsContainer: {
@@ -100,8 +90,6 @@ const getStyles = (isDarkMode: boolean) => {
       flexDirection: 'row',
       justifyContent: 'center',
       gap: 20,
-      // borderWidth: 3,
-      // borderColor: 'limegreen',
     },
     secondaryButton: {
       paddingVertical: 12,
@@ -120,16 +108,14 @@ const getStyles = (isDarkMode: boolean) => {
     buttonText: {
       fontSize: 16,
       letterSpacing: 1,
-      fontWeight: '700',
+      fontWeight: '500',
+      fontFamily: 'Gilroy-SemiBold',
       color: '#fff',
-      textTransform: 'uppercase',
     },
     paginator: {
       display: 'flex',
       flexDirection: 'row',
       gap: 12,
-      // borderWidth: 3,
-      // borderColor: 'blue',
     },
     regularDot: {
       width: 8,
@@ -141,7 +127,7 @@ const getStyles = (isDarkMode: boolean) => {
       width: 8,
       height: 8,
       borderRadius: 10,
-      backgroundColor: 'yellow',
+      backgroundColor: '#F2C94C',
     },
     centeredView: {
       flex: 1,
@@ -167,18 +153,22 @@ const getStyles = (isDarkMode: boolean) => {
     modalTitle: {
       fontSize: 20,
       fontWeight: '700',
+      fontFamily: 'Gilroy-SemiBold',
       marginBottom: 10,
     },
     modalOverview: {
       fontSize: 16,
       marginBottom: 10,
+      fontFamily: 'Gilroy-Regular',
     },
     modalRelseaseDate: {
       fontSize: 16,
       marginBottom: 20,
+      fontFamily: 'Gilroy-Regular',
     },
     modalButton: {
       alignSelf: 'center',
+      fontFamily: 'Gilroy-SemiBold',
     },
     themedButtonText: {
       color: isDarkMode ? '#000' : '#fff',
@@ -196,6 +186,7 @@ const HomeBanner = () => {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const styles = getStyles(isDarkMode);
+  const navigation =useNavigation<BottomTabNavigationProp<MainTabParamList>>();
 
   useEffect(() => {
     setBannerMovies(movies.slice(0, 5));
@@ -219,6 +210,14 @@ const HomeBanner = () => {
     }
   };
 
+  const handleMyList = useCallback(() => {
+    navigation.navigate('Wishlist');
+  }, []);
+
+  const handleDiscover = useCallback(() => {
+    navigation.navigate('SearchScreen');
+  }, []);
+
   const handleOnPressHideModal = () => {
     setModalVisible(false);
   };
@@ -227,7 +226,6 @@ const HomeBanner = () => {
     <View style={styles.homeBanner}>
       <Carousel
         ref={carouselRef}
-        style={styles.carousel}
         width={SCREEN_WIDTH}
         data={bannerMovies}
         onProgressChange={progress}
@@ -248,8 +246,12 @@ const HomeBanner = () => {
       <View style={styles.floatingPannel}>
         <View style={styles.controlsContainer}>
           <View style={styles.sectionsContainer}>
-            <Text style={styles.sectionText}>My List</Text>
-            <Text style={styles.sectionText}>Discover</Text>
+            <TouchableOpacity onPress={handleMyList}>
+              <Text style={styles.sectionText}>My List</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleDiscover}>
+              <Text style={styles.sectionText}>Discover</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.buttonsContainer}>
             <TouchableOpacity style={styles.secondaryButton}>

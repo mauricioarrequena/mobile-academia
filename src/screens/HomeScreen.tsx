@@ -13,8 +13,6 @@ const getStyles = (isDarkMode: boolean) =>
       gap: 30,
       paddingBottom: 30,
       backgroundColor: isDarkMode ? '#0a0a0b' : '#ffffff',
-      // borderWidth: 5,
-      // borderColor: 'yellow',
     },
   });
 export default function HomeScreen() {
@@ -27,7 +25,7 @@ export default function HomeScreen() {
       <View style={styles.home}>
         <HomeBanner />
         <MovieRowSection
-          sectionName="Marvel Movies"
+          sectionName="Marvel studios"
           moviesEndpoint="discover/movie"
           endpointParams={{sort_by: 'popularity.desc', with_companies: 420}}
           showTitleMovie={true}

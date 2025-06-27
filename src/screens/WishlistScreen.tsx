@@ -15,7 +15,7 @@ const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   title: {
     color: isDarkMode ? '#FFFFFF' : 'black',
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'Gilroy-SemiBold',
     marginBottom: 20,
   },
   emptyContainer: {

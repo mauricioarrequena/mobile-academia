@@ -23,7 +23,7 @@ const MovieDetail = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  const backgroundColor = isDark ? '#121212' : '#fff';
+  const backgroundColor = isDark ? 'black' : '#fff';
   const textColor = isDark ? '#fff' : '#333333';
   const primaryColor = '#ebca62';
 
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'Gilroy-Bold',
   },
   metaRow: {
     flexDirection: 'row',
@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     fontSize: 14,
+    fontFamily: 'Gilroy-Medium',
   },
   content: {
     paddingHorizontal: 16,
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Gilroy-SemiBold',
   },
   overviewSection: {
     padding: 16,
@@ -144,11 +145,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: 'Gilroy-SemiBold',
     marginBottom: 8,
   },
   overviewText: {
     fontSize: 15,
     lineHeight: 22,
+    fontFamily: 'Gilroy-Medium',
   },
 });
 

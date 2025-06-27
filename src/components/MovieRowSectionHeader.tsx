@@ -7,22 +7,13 @@ const getStyles = (isDarkMode: boolean) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      // borderWidth: 1,
-      // borderColor: 'red',
     },
     title: {
       fontSize: 20,
-      fontWeight: 'bold',
+      fontFamily: 'Gilroy-SemiBold',
       color: isDarkMode ? '#fff' : 'black',
-      // borderWidth: 1,
-      // borderColor: 'green',
-    },
-    linkWrapper: {
-      // borderWidth: 1,
-      // borderColor: 'blue',
     },
     link: {
-      fontWeight: 'bold',
       color: '#F2C94C',
     },
     titlefont: {
@@ -34,7 +25,7 @@ const getStyles = (isDarkMode: boolean) =>
       fontSize: 16,
     },
     textFont: {
-      fontFamily: 'Gilroy-Bold',
+      fontFamily: 'Gilroy-SemiBold',
     },
     text: {
       textAlign: 'center',
@@ -67,7 +58,6 @@ const MovieRowSectionHeader: FC<MovieRowSectionHeaderProps> = ({
     <View style={styles.container}>
       <Text style={styles.title}>{categoryName}</Text>
       <TouchableOpacity
-        style={styles.linkWrapper}
         onPress={() => onPressSeeMore()}>
         <Text style={[styles.textFont, styles.link]}>See more</Text>
       </TouchableOpacity>

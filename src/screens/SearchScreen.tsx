@@ -76,7 +76,7 @@ const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   title: {
     color: isDarkMode ? '#FFFFFF' : 'black',
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'Gilroy-SemiBold',
     marginBottom: 20,
   },
   searchContainer: {
@@ -97,6 +97,7 @@ const getStyles = (isDarkMode: boolean) => StyleSheet.create({
     flex: 1,
     color: isDarkMode ? '#FFFFFF' : 'black',
     fontSize: 16,
+    fontFamily: 'Gilroy-Medium',
   },
   columnWrapperStyle: {
     justifyContent: 'space-between',
