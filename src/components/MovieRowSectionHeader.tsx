@@ -1,7 +1,14 @@
 import {FC} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, useColorScheme} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import { ThemeColors } from '../types/ThemeColors';
+import { useThemedStyles } from '../hooks/useThemedStyles';
 
-const getStyles = (isDarkMode: boolean) =>
+const getStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     container: {
       flexDirection: 'row',
@@ -11,10 +18,10 @@ const getStyles = (isDarkMode: boolean) =>
     title: {
       fontSize: 20,
       fontFamily: 'Gilroy-SemiBold',
-      color: isDarkMode ? '#fff' : 'black',
+      color: colors.text,
     },
     link: {
-      color: '#F2C94C',
+      color: colors.primary,
     },
     titlefont: {
       fontFamily: 'Gilroy-Bold',
@@ -26,10 +33,6 @@ const getStyles = (isDarkMode: boolean) =>
     },
     textFont: {
       fontFamily: 'Gilroy-SemiBold',
-    },
-    text: {
-      textAlign: 'center',
-      color: isDarkMode ? '#E0E0E0' : '#212121',
     },
     textLarge: {
       fontSize: 20,
@@ -50,15 +53,13 @@ const MovieRowSectionHeader: FC<MovieRowSectionHeaderProps> = ({
   categoryName,
   onPressSeeMore,
 }) => {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
-
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{categoryName}</Text>
-      <TouchableOpacity
-        onPress={() => onPressSeeMore()}>
+      <TouchableOpacity onPress={() => onPressSeeMore()}>
         <Text style={[styles.textFont, styles.link]}>See more</Text>
       </TouchableOpacity>
     </View>

@@ -49,9 +49,7 @@ const MainNavigator = () => {
         <TabNavigator.Screen
           name="ProfileTab"
           component={ProfileStackNavigator}
-          options={{
-            title: 'Profile',
-          }}
+          options={{title: 'Profile',}}
         />
       </TabNavigator.Navigator>
     </NavigationContainer>

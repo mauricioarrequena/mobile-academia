@@ -6,7 +6,6 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  useColorScheme,
   Modal,
 } from 'react-native';
 import useTMDB from '../hooks/useTMDB';
@@ -17,10 +16,13 @@ import Carousel, {
 } from 'react-native-reanimated-carousel';
 import {useSharedValue} from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
-import { Movie } from '../types/Movie';
-import { useNavigation } from '@react-navigation/native';
-import { MainTabParamList } from '../navigation/types';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import {Movie} from '../types/Movie';
+import {useNavigation} from '@react-navigation/native';
+import {MainTabParamList} from '../navigation/types';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {useThemedStyles} from '../hooks/useThemedStyles';
+import { ThemeColors } from '../types/ThemeColors';
+import useTheme from '../context/theme/useTheme';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 const BANNER_HEIGHT = 495;
@@ -41,7 +43,7 @@ const LIGHT_GRADIENT_COLORS = [
   '#fff',
 ];
 const GRADIENT_LOCATIONS = [0, 0.2, 0.4, 0.6, 0.8, 1];
-const getStyles = (isDarkMode: boolean) => {
+const getStyles = (colors: ThemeColors) => {
   return StyleSheet.create({
     homeBanner: {
       height: BANNER_HEIGHT,
@@ -145,10 +147,10 @@ const getStyles = (isDarkMode: boolean) => {
       paddingVertical: 25,
       paddingHorizontal: 25,
       borderRadius: 20,
-      backgroundColor: isDarkMode ? '#1E1E1E' : '#fff',
+      backgroundColor: colors.background,
     },
     themedText: {
-      color: isDarkMode ? '#fff' : 'black',
+      color: colors.text,
     },
     modalTitle: {
       fontSize: 20,
@@ -171,7 +173,7 @@ const getStyles = (isDarkMode: boolean) => {
       fontFamily: 'Gilroy-SemiBold',
     },
     themedButtonText: {
-      color: isDarkMode ? '#000' : '#fff',
+      color: colors.buttonText,
     },
   });
 };
@@ -183,10 +185,11 @@ const HomeBanner = () => {
   const carouselRef = useRef<ICarouselInstance>(null);
   const progress = useSharedValue(0);
   const {movies} = useTMDB('movie/popular', {});
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
-  const navigation =useNavigation<BottomTabNavigationProp<MainTabParamList>>();
+  const {currentTheme} = useTheme();
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
+
+  const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
 
   useEffect(() => {
     setBannerMovies(movies.slice(0, 5));
@@ -240,7 +243,7 @@ const HomeBanner = () => {
       />
       <LinearGradient
         style={styles.blackLinearGradient}
-        colors={isDarkMode ? DARK_GRADIENT_COLORS : LIGHT_GRADIENT_COLORS}
+        colors={currentTheme === 'dark' ? DARK_GRADIENT_COLORS : LIGHT_GRADIENT_COLORS} 
         locations={GRADIENT_LOCATIONS}
       />
       <View style={styles.floatingPannel}>

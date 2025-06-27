@@ -1,14 +1,47 @@
-import {StyleSheet, Text, View, useColorScheme} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {useLinkBuilder} from '@react-navigation/native';
 import type {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {PlatformPressable} from '@react-navigation/elements';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useThemedStyles} from '../hooks/useThemedStyles';
+import {ThemeColors} from '../types/ThemeColors';
+
+const getStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    tabBarFooter: {
+      flexDirection: 'row',
+      borderTopWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.background,
+    },
+    tabItem: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: 8,
+      paddingBottom: 25,
+    },
+    iconActive: {
+      color: '#F2C94C',
+    },
+    labelInactive: {
+      fontSize: 12,
+      color: colors.text,
+      marginTop: 4,
+      fontFamily: 'Gilroy-SemiBold',
+    },
+    labelActive: {
+      fontSize: 12,
+      color: '#F2C94C',
+      marginTop: 4,
+      fontFamily: 'Gilroy-Bold',
+    },
+  });
 
 const TabBarFooter = ({state, descriptors, navigation}: BottomTabBarProps) => {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  const styles = getStyles(isDark);
   const {buildHref} = useLinkBuilder();
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
 
   const iconNames = [
     'home-outline',
@@ -52,9 +85,7 @@ const TabBarFooter = ({state, descriptors, navigation}: BottomTabBarProps) => {
             <Icon
               name={iconNames[index]}
               size={20}
-              color={
-                isFocused ? styles.iconActive.color : styles.iconInactive.color
-              }
+              color={isFocused ? colors.primary : colors.icon}
             />
             <Text style={isFocused ? styles.labelActive : styles.labelInactive}>
               {label}
@@ -65,40 +96,5 @@ const TabBarFooter = ({state, descriptors, navigation}: BottomTabBarProps) => {
     </View>
   );
 };
-
-const getStyles = (isDark: boolean) =>
-  StyleSheet.create({
-    tabBarFooter: {
-      flexDirection: 'row',
-      borderTopWidth: 1,
-      borderColor: isDark ? '#444' : '#ccc',
-      backgroundColor: isDark ? '#0a0a0b' : '#ffffff',
-    },
-    tabItem: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingTop: 8,
-      paddingBottom: 25,
-    },
-    iconInactive: {
-      color: isDark ? '#888' : 'black',
-    },
-    iconActive: {
-      color: '#F2C94C',
-    },
-    labelInactive: {
-      fontSize: 12,
-      color: isDark ? '#aaa' : 'black',
-      marginTop: 4,
-      fontFamily: 'Gilroy-SemiBold'
-    },
-    labelActive: {
-      fontSize: 12,
-      color: '#F2C94C',
-      marginTop: 4,
-      fontFamily: 'Gilroy-Bold'
-    },
-  });
 
 export default TabBarFooter;
