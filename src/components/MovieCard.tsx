@@ -4,17 +4,18 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
   ViewStyle,
 } from 'react-native';
 import AddToWishlist from './AddToWishlist';
-import { TMDB_IMAGES_BASE_URL } from '@env';
+import {TMDB_IMAGES_BASE_URL} from '@env';
 import RemoveToWishList from './RemoveToWishlist';
-import { Movie } from '../types/Movie';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/types';
+import {Movie} from '../types/Movie';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigation/types';
+import {useThemedStyles} from '../hooks/useThemedStyles';
+import { ThemeColors } from '../types/ThemeColors';
 
 type MovieCardProps = {
   movie: Movie;
@@ -24,7 +25,7 @@ type MovieCardProps = {
   containerStyle?: ViewStyle;
 };
 
-const getStyles = (isDarkMode: boolean) =>
+const getStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     movieItem: {
       width: 110,
@@ -40,7 +41,7 @@ const getStyles = (isDarkMode: boolean) =>
     text: {
       textAlign: 'center',
       fontFamily: 'Gilroy-SemiBold',
-      color: isDarkMode ? '#E0E0E0' : '#212121',
+      color: colors.text,
     },
     wishlist: {
       position: 'absolute',
@@ -59,18 +60,17 @@ const MovieCard = ({
   imageStyle,
   containerStyle,
 }: MovieCardProps) => {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('MovieDetail', { id: movie.id })}>
+      onPress={() => navigation.navigate('MovieDetail', {id: movie.id})}>
       <View style={containerStyle ?? styles.movieItem}>
         <Image
-          source={{ uri: `${TMDB_IMAGES_BASE_URL}/w185${movie.poster_path}` }}
+          source={{uri: `${TMDB_IMAGES_BASE_URL}/w185${movie.poster_path}`}}
           style={imageStyle ?? styles.image}
         />
         {showTitle && (

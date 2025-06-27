@@ -4,10 +4,11 @@ import {
   StyleSheet,
   Pressable,
   Image,
-  useColorScheme,
 } from 'react-native';
+import { useThemedStyles } from '../hooks/useThemedStyles';
+import { ThemeColors } from '../types/ThemeColors';
 
-const getStyles = (isDarkMode: boolean) =>
+const getStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     highlight: {
       flex: 1,
@@ -15,7 +16,7 @@ const getStyles = (isDarkMode: boolean) =>
       flexDirection: 'column',
       paddingHorizontal: 28,
       gap: 10,
-      backgroundColor: isDarkMode ? '#121212' : 'white',
+      backgroundColor: colors.background,
     },
     imageContainer: {},
     image: {
@@ -28,7 +29,7 @@ const getStyles = (isDarkMode: boolean) =>
       gap: 8,
     },
     text: {
-      color: isDarkMode ? '#E0E0E0' : '#121212',
+      color: colors.text,
       fontFamily: 'Gilroy-Regular',
     },
     button: {
@@ -45,7 +46,7 @@ const getStyles = (isDarkMode: boolean) =>
       backgroundColor: '#D6B340',
     },
     buttonText: {
-      color: isDarkMode ? '#121212' : 'white',
+      color: colors.buttonText,
       fontWeight: '500',
       fontFamily: 'Gilroy-Regular',
       fontSize: 16,
@@ -62,9 +63,8 @@ const getStyles = (isDarkMode: boolean) =>
   });
 
 const Highlight = () => {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.highlight}>

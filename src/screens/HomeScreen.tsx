@@ -1,10 +1,12 @@
-import {StyleSheet, View, useColorScheme} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import HomeBanner from '../components/HomeBanner';
 import MovieRowSection from '../components/MovieRowSection';
 import Layout from '../components/Layout';
 import Highlight from '../components/Highlight';
+import { useThemedStyles } from '../hooks/useThemedStyles';
+import { ThemeColors } from '../types/ThemeColors';
 
-const getStyles = (isDarkMode: boolean) =>
+const getStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     home: {
       flex: 1,
@@ -12,13 +14,12 @@ const getStyles = (isDarkMode: boolean) =>
       justifyContent: 'center',
       gap: 30,
       paddingBottom: 30,
-      backgroundColor: isDarkMode ? '#0a0a0b' : '#ffffff',
+      backgroundColor: colors.background,
     },
   });
 export default function HomeScreen() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
 
   return (
     <Layout>

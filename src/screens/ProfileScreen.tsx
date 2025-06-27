@@ -1,42 +1,39 @@
-import {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Image,
-  useColorScheme,
-  Switch,
-} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Image, Switch} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useThemedStyles} from '../hooks/useThemedStyles';
+import {ThemeColors} from '../types/ThemeColors';
+import useTheme from '../context/theme/useTheme';
 
-const getStyles = (isDarkMode: boolean) =>
+const getStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     textCentered: {
       textAlign: 'center',
     },
     textLarge: {
       fontSize: 24,
-      color: isDarkMode ? 'white' : 'black'
+      color: colors.text,
     },
     textMediumBig: {
       fontSize: 22,
-      color: isDarkMode ? 'white' : 'black',
+      color: colors.text,
       fontFamily: 'Gilroy-SemiBold',
     },
     textThemeButton: {
       fontSize: 16,
-      color: isDarkMode ? 'white' : 'black',
+      color: colors.text,
       fontFamily: 'Gilroy-Regular',
     },
     textSmall: {
       fontSize: 16,
       fontFamily: 'Gilroy-Regular',
     },
+    buttonText: {
+      color: colors.text,
+    },
     textExtraSmall: {
       fontSize: 13,
       fontFamily: 'Gilroy-Regular',
-      color: isDarkMode ? 'white' : 'Black',
+      color: colors.text,
     },
     textBold: {
       fontFamily: 'Gilroy-Bold',
@@ -50,15 +47,13 @@ const getStyles = (isDarkMode: boolean) =>
     },
     profileScreen: {
       flex: 1,
-      display: 'flex',
       flexDirection: 'column',
       paddingVertical: 20,
       gap: 20,
-      backgroundColor: isDarkMode ? 'black' : '#fff',
+      backgroundColor: colors.background,
     },
     userSectionContainer: {
       marginHorizontal: 20,
-      display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       padding: 20,
@@ -71,24 +66,21 @@ const getStyles = (isDarkMode: boolean) =>
       borderRadius: 50,
     },
     dataContainer: {
-      display: 'flex',
       flexDirection: 'column',
       gap: 5,
     },
     dataTextContainer: {
-      display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
       fontFamily: 'Gilroy-Medium',
     },
     shareProfileButton: {
-      display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       gap: 5,
       paddingHorizontal: 10,
       paddingVertical: 8,
-      backgroundColor: '#fff',
+      backgroundColor: colors.background,
       borderRadius: 8,
       borderWidth: 1,
       borderColor: '#ccc',
@@ -99,14 +91,12 @@ const getStyles = (isDarkMode: boolean) =>
     },
     movieDataSectionContainer: {
       marginHorizontal: 20,
-      display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
       gap: 10,
     },
     movieDataContainer: {
       flex: 3,
-      display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       paddingVertical: 25,
@@ -121,60 +111,52 @@ const getStyles = (isDarkMode: boolean) =>
     },
     settingsSectionContainer: {
       marginHorizontal: 20,
-      display: 'flex',
       flexDirection: 'column',
       padding: 20,
       gap: 20,
       borderRadius: 10,
     },
     darkModeContainer: {
-      display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
     },
     darlkModeLeftSection: {
-      display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,
     },
     darkModeTextContainer: {
-      display: 'flex',
       flexDirection: 'column',
     },
     recentActivitySectionContainer: {
       marginHorizontal: 20,
-      display: 'flex',
       flexDirection: 'column',
       padding: 20,
       gap: 20,
       borderRadius: 10,
     },
     recentActivityList: {
-      display: 'flex',
       flexDirection: 'column',
       gap: 10,
     },
   });
 
 const ProfileScreen = () => {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
-  const [mockToggled, setMockToggled] = useState(false);
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
+  const {themeMode, setThemeMode} = useTheme();
 
   return (
     <View style={styles.profileScreen}>
+      {/* User Info Section */}
       <View style={[styles.userSectionContainer, styles.borderGray]}>
-        <View testID="image container">
-          <Image
-            style={styles.imageProfile}
-            source={require('../../assets/images/mockProfile.jpg')}
-          />
-        </View>
-        <View testID="data contianer" style={styles.dataContainer}>
-          <View testID="data text ontainer" style={styles.dataTextContainer}>
+        <Image
+          style={styles.imageProfile}
+          source={require('../../assets/images/mockProfile.jpg')}
+        />
+        <View style={styles.dataContainer}>
+          <View style={styles.dataTextContainer}>
             <Text style={[styles.textMediumBig, styles.textBold]}>
               John Doe
             </Text>
@@ -183,90 +165,76 @@ const ProfileScreen = () => {
             </Text>
           </View>
           <Pressable
-            testID="button container"
             style={({pressed}) => [
               styles.shareProfileButton,
               pressed && styles.buttonPressed,
             ]}>
             <Icon name="share-social-outline" size={20} color="#F2C94C" />
-            <Text style={styles.textSmall}>Share Profile</Text>
+            <Text style={[styles.textSmall, styles.buttonText]}>Share Profile</Text>
           </Pressable>
         </View>
       </View>
 
-      <View style={[styles.movieDataSectionContainer]}>
-        <View style={[styles.movieDataContainer, styles.borderGray]}>
-          <Icon name="star-outline" size={20} color="#F2C94C" />
-          <Text style={[styles.textLarge, styles.textBold]}>127</Text>
-          <Text
-            style={[
-              styles.textCentered,
-              styles.textExtraSmall,
-              styles.grayText,
-            ]}>
-            Movies Watched
-          </Text>
-        </View>
-        <View style={[styles.movieDataContainer, styles.borderGray]}>
-          <Icon name="heart-outline" size={20} color="#F2C94C" />
-          <Text style={[styles.textLarge, styles.textBold]}>23</Text>
-          <Text
-            style={[
-              styles.textCentered,
-              styles.textExtraSmall,
-              styles.grayText,
-            ]}>
-            Movies Whishlist
-          </Text>
-        </View>
-        <View style={[styles.movieDataContainer, styles.borderGray]}>
-          <Icon name="pricetag-outline" size={20} color="#F2C94C" />
-          <Text style={[styles.textLarge, styles.textBold]}>8</Text>
-          <Text
-            style={[
-              styles.textCentered,
-              styles.textExtraSmall,
-              styles.grayText,
-            ]}>
-            Collections
-          </Text>
-        </View>
+      {/* Movie Stats */}
+      <View style={styles.movieDataSectionContainer}>
+        {[
+          {icon: 'star-outline', label: 'Movies Watched', count: 127},
+          {icon: 'heart-outline', label: 'Movies Whishlist', count: 23},
+          {icon: 'pricetag-outline', label: 'Collections', count: 8},
+        ].map(({icon, label, count}, _index) => (
+          <View
+            key={_index}
+            style={[styles.movieDataContainer, styles.borderGray]}>
+            <Icon name={icon} size={20} color="#F2C94C" />
+            <Text style={[styles.textLarge, styles.textBold]}>{count}</Text>
+            <Text
+              style={[
+                styles.textCentered,
+                styles.textExtraSmall,
+                styles.grayText,
+              ]}>
+              {label}
+            </Text>
+          </View>
+        ))}
       </View>
 
+      {/* Settings */}
       <View style={[styles.settingsSectionContainer, styles.borderGray]}>
         <Text style={[styles.textLarge, styles.textBold]}>Settings</Text>
         <View style={styles.darkModeContainer}>
           <View style={styles.darlkModeLeftSection}>
             <Icon name="sunny-outline" size={20} color="#F2C94C" />
             <View style={styles.darkModeTextContainer}>
-              <Text style={[styles.textThemeButton, styles.textBold]}>Dark Mode</Text>
-              <Text style={[styles.textThemeButton]}>Toggle dark theme</Text>
+              <Text style={[styles.textThemeButton, styles.textBold]}>
+                Dark Mode
+              </Text>
+              <Text style={styles.textThemeButton}>Toggle dark theme</Text>
             </View>
           </View>
-          <View>
-            <Switch
-              value={mockToggled}
-              onValueChange={() => {
-                setMockToggled(!mockToggled);
-              }}
-              trackColor={{false: '#ccc', true: '#F2C94C'}}
-              thumbColor={isDarkMode ? '#fff' : '#f4f3f4'}
-              ios_backgroundColor="#ccc"
-            />
-          </View>
+          <Switch
+            value={themeMode === 'dark'}
+            onValueChange={val => {
+              setThemeMode(val ? 'dark' : 'light');
+            }}
+            trackColor={{false: '#ccc', true: '#F2C94C'}}
+            thumbColor={themeMode === 'dark' ? '#fff' : '#f4f3f4'}
+            ios_backgroundColor="#ccc"
+          />
         </View>
       </View>
 
+      {/* Recent Activity */}
       <View style={[styles.recentActivitySectionContainer, styles.borderGray]}>
         <Text style={[styles.textLarge, styles.textBold]}>Recent Activity</Text>
         <View style={styles.recentActivityList}>
-          <Text style={[styles.textExtraSmall]}>
+          <Text style={styles.textExtraSmall}>
             - Added "Dune: Part Two" to Watchlist
           </Text>
-          <Text style={[styles.textExtraSmall]}>
-            - Craeted "Sci-Fi" collection
+          <Text style={styles.textExtraSmall}>
+            - Created "Sci-Fi" collection
           </Text>
-          <Text style={[styles.textExtraSmall]}>- Watched "Openhaimer"</Text>
+          <Text style={styles.textExtraSmall}>- Watched "Oppenheimer"</Text>
         </View>
       </View>
     </View>

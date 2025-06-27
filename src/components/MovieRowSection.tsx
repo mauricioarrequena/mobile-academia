@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import {FC} from 'react';
 import {
   View,
   Text,
@@ -8,20 +8,21 @@ import {
   useColorScheme,
 } from 'react-native';
 import MovieRowSectionHeader from './MovieRowSectionHeader';
-import { TMDB_IMAGES_BASE_URL } from '@env';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/types'; // adjust path
+import {TMDB_IMAGES_BASE_URL} from '@env';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigation/types'; // adjust path
 import useTMDB from '../hooks/useTMDB';
 import AddToWishlist from './AddToWishlist';
 import MovieCard from './MovieCard';
+import { useThemedStyles } from '../hooks/useThemedStyles';
+import { ThemeColors } from '../types/ThemeColors';
 
-const getStyles = (isDarkMode: boolean) =>
+const getStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     movieSection: {
       gap: 15,
       paddingHorizontal: 25,
-      borderColor: isDarkMode ? '#888' : 'red',
       // borderWidth: 1,
       // borderColor: 'red',
     },
@@ -45,6 +46,9 @@ const getStyles = (isDarkMode: boolean) =>
     //   // borderWidth: 2,
     //   // borderColor: 'blue',
     // },
+    textColor: {
+      color: colors.text,
+    },
     textLarge: {
       fontSize: 20,
     },
@@ -65,14 +69,14 @@ const MovieRowSection: FC<MovieSectionProps> = ({
   sectionName,
   moviesEndpoint,
   endpointParams,
-  showTitleMovie
+  showTitleMovie,
 }) => {
-  const { movies } = useTMDB(moviesEndpoint, endpointParams);
+  const {movies} = useTMDB(moviesEndpoint, endpointParams);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
   const displayedMovies = movies.slice(0, 5);
 
   const handleOnPressSeeMore = () => {
@@ -99,8 +103,12 @@ const MovieRowSection: FC<MovieSectionProps> = ({
           showsHorizontalScrollIndicator={false}
           ItemSeparatorComponent={ItemSeparator}
           style={styles.flatList}
-          renderItem={({ item }) => (
-            <MovieCard movie={item} showTitle={showTitleMovie} isWishListScreen={false} />
+          renderItem={({item}) => (
+            <MovieCard
+              movie={item}
+              showTitle={showTitleMovie}
+              isWishListScreen={false}
+            />
           )}
         />
       </View>

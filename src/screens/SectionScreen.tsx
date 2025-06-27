@@ -1,8 +1,10 @@
 import React from 'react';
-import {View, Text, FlatList, StyleSheet, useColorScheme} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 import useTMDB from '../hooks/useTMDB';
 import {useRoute, RouteProp} from '@react-navigation/native';
 import MovieCard from '../components/MovieCard';
+import {useThemedStyles} from '../hooks/useThemedStyles';
+import {ThemeColors} from '../types/ThemeColors';
 
 type RootStackParamList = {
   Tabs: undefined;
@@ -11,16 +13,16 @@ type RootStackParamList = {
 
 const NUMBER_OF_COLUMNS = 3;
 
-const getStyles = (isDarkMode: boolean) =>
+const getStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     sectionScreen: {
       flex: 1,
       paddingTop: 60,
       paddingHorizontal: 16,
-      backgroundColor: isDarkMode ? 'black' : '#FFFFFF',
+      backgroundColor: colors.background,
     },
     sectionTitle: {
-      color: isDarkMode ? '#FFFFFF' : 'black',
+      color: colors.text,
       fontSize: 24,
       fontFamily: 'Gilroy-SemiBold',
       marginBottom: 20,
@@ -35,9 +37,8 @@ export default function SectionScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'SectionScreen'>>();
   const {categoryName, endpoint, params} = route.params ?? {};
   const {movies} = useTMDB(endpoint, params);
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const styles = getStyles(isDarkMode);
+  const {colors} = useThemedStyles();
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.sectionScreen}>
