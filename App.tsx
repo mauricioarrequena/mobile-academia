@@ -6,6 +6,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {WishlistProvider} from './src/context/WishlistContext';
 import {createTables} from './src/database/db';
 import {ThemeProvider} from './src/context/theme/ThemeProvider';
+import RootNavigator from './src/navigation/RootNavigator';
 
 const backgroundColorLigt = '#ffffff';
 const backgroundColorDark = '#0a0a0b';
@@ -44,7 +45,8 @@ function App(): React.JSX.Element {
                 colorScheme === 'dark' ? 'light-content' : 'dark-content'
               }
             />
-            <MainNavigator />
+            {/* <MainNavigator /> */}
+            <RootNavigator />
           </GestureHandlerRootView>
         </WishlistProvider>
       </ThemeProvider>
