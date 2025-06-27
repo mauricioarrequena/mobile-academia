@@ -1,25 +1,43 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
+import {StatusBar, StyleSheet, View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {StatusBar, StyleSheet, useColorScheme} from 'react-native';
-import MainNavigator from './src/navigation/MainNavigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {WishlistProvider} from './src/context/WishlistContext';
-import {createTables} from './src/database/db';
+import {useThemedStyles} from './src/hooks/useThemedStyles';
 import {ThemeProvider} from './src/context/theme/ThemeProvider';
+import {WishlistProvider} from './src/context/WishlistContext';
 import RootNavigator from './src/navigation/RootNavigator';
+import {createTables} from './src/database/db';
 
-const backgroundColorLigt = '#ffffff';
-const backgroundColorDark = '#0a0a0b';
+const stylesAppContent = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  statusBarBackground: {
+    backgroundColor: 'transparent',
+  },
+});
+const AppContent = () => {
+  const {colors} = useThemedStyles();
 
-const styles = StyleSheet.create({
+  return (
+    <View style={stylesAppContent.container}>
+      <StatusBar
+        translucent
+        backgroundColor={stylesAppContent.statusBarBackground.backgroundColor}
+        barStyle={colors.statusBar}
+      />
+      <RootNavigator />
+    </View>
+  );
+};
+
+const stylesApp = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
 });
 
 function App(): React.JSX.Element {
-  const colorScheme = useColorScheme();
-
   useEffect(() => {
     const setupDb = async () => {
       try {
@@ -33,20 +51,11 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <SafeAreaProvider
-      style={styles.safeArea}>
+    <SafeAreaProvider style={stylesApp.safeArea}>
       <ThemeProvider>
         <WishlistProvider>
           <GestureHandlerRootView>
-            <StatusBar
-              translucent
-              backgroundColor="transparent"
-              barStyle={
-                colorScheme === 'dark' ? 'light-content' : 'dark-content'
-              }
-            />
-            {/* <MainNavigator /> */}
-            <RootNavigator />
+            <AppContent />
           </GestureHandlerRootView>
         </WishlistProvider>
       </ThemeProvider>

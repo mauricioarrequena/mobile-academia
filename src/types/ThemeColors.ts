@@ -7,4 +7,5 @@ export interface ThemeColors {
   accent: string;
   icon: string;
   border: string;
+  statusBar: 'light-content' | 'dark-content' | 'default';
 }
