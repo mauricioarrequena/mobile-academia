@@ -33,7 +33,7 @@ export default function HomeScreen() {
         />
         <MovieRowSection
           sectionName="Top Rated Movies"
-          moviesEndpoint="tv/top_rated"
+          moviesEndpoint="movie/top_rated"
           showTitleMovie={true}
         />
         <Highlight />
