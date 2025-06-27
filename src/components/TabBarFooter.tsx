@@ -82,21 +82,22 @@ const getStyles = (isDark: boolean) =>
       paddingBottom: 25,
     },
     iconInactive: {
-      color: isDark ? '#888' : '#555',
+      color: isDark ? '#888' : 'black',
     },
     iconActive: {
-      color: isDark ? '#fff' : '#000',
+      color: '#F2C94C',
     },
     labelInactive: {
       fontSize: 12,
-      color: isDark ? '#aaa' : '#555',
+      color: isDark ? '#aaa' : 'black',
       marginTop: 4,
+      fontFamily: 'Gilroy-SemiBold'
     },
     labelActive: {
       fontSize: 12,
-      fontWeight: 'bold',
-      color: isDark ? '#fff' : '#000',
+      color: '#F2C94C',
       marginTop: 4,
+      fontFamily: 'Gilroy-Bold'
     },
   });
 

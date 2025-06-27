@@ -29,6 +29,7 @@ const getStyles = (isDarkMode: boolean) =>
     },
     text: {
       color: isDarkMode ? '#E0E0E0' : '#121212',
+      fontFamily: 'Gilroy-Regular',
     },
     button: {
       display: 'flex',
@@ -46,6 +47,7 @@ const getStyles = (isDarkMode: boolean) =>
     buttonText: {
       color: isDarkMode ? '#121212' : 'white',
       fontWeight: '500',
+      fontFamily: 'Gilroy-Regular',
       fontSize: 16,
     },
     textLarge: {
@@ -55,7 +57,7 @@ const getStyles = (isDarkMode: boolean) =>
       fontSize: 16,
     },
     textBold: {
-      fontWeight: 'bold',
+      fontFamily: 'Gilroy-Bold',
     },
   });
 

@@ -17,24 +17,29 @@ const getStyles = (isDarkMode: boolean) =>
     },
     textLarge: {
       fontSize: 24,
-      // borderWidth: 1,
-      // borderColor: 'red',
+      color: isDarkMode ? 'white' : 'black'
     },
     textMediumBig: {
       fontSize: 22,
+      color: isDarkMode ? 'white' : 'black',
+      fontFamily: 'Gilroy-SemiBold',
+    },
+    textThemeButton: {
+      fontSize: 16,
+      color: isDarkMode ? 'white' : 'black',
+      fontFamily: 'Gilroy-Regular',
     },
     textSmall: {
       fontSize: 16,
-      // borderWidth: 1,
-      // borderColor: 'blue',
+      fontFamily: 'Gilroy-Regular',
     },
     textExtraSmall: {
       fontSize: 13,
+      fontFamily: 'Gilroy-Regular',
+      color: isDarkMode ? 'white' : 'Black',
     },
     textBold: {
-      fontWeight: 'bold',
-      // borderWidth: 1,
-      // borderColor: 'orange',
+      fontFamily: 'Gilroy-Bold',
     },
     grayText: {
       color: 'gray',
@@ -49,9 +54,7 @@ const getStyles = (isDarkMode: boolean) =>
       flexDirection: 'column',
       paddingVertical: 20,
       gap: 20,
-      backgroundColor: isDarkMode ? '#121212' : '#fff',
-      // borderWidth: 3,
-      // borderColor: 'purple',
+      backgroundColor: isDarkMode ? 'black' : '#fff',
     },
     userSectionContainer: {
       marginHorizontal: 20,
@@ -61,12 +64,6 @@ const getStyles = (isDarkMode: boolean) =>
       padding: 20,
       gap: 20,
       borderRadius: 10,
-      // borderWidth: 2,
-      // borderColor: 'green',
-    },
-    imageContainer: {
-      // borderWidth: 2,
-      // borderColor: 'cyan',
     },
     imageProfile: {
       width: 70,
@@ -77,15 +74,12 @@ const getStyles = (isDarkMode: boolean) =>
       display: 'flex',
       flexDirection: 'column',
       gap: 5,
-      // borderWidth: 2,
-      // borderColor: 'magenta',
     },
     dataTextContainer: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      // borderWidth: 2,
-      // borderColor: 'yellow',
+      fontFamily: 'Gilroy-Medium',
     },
     shareProfileButton: {
       display: 'flex',
@@ -109,8 +103,6 @@ const getStyles = (isDarkMode: boolean) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       gap: 10,
-      // borderWidth: 2,
-      // borderColor: 'brown',
     },
     movieDataContainer: {
       flex: 3,
@@ -120,13 +112,12 @@ const getStyles = (isDarkMode: boolean) =>
       paddingVertical: 25,
       gap: 8,
       borderRadius: 10,
-      // borderWidth: 2,
-      // borderColor: 'pink',
     },
     movieDataText: {
       textAlign: 'center',
       borderWidth: 1,
       borderColor: 'black',
+      fontFamily: 'Gilroy-SemiBold',
     },
     settingsSectionContainer: {
       marginHorizontal: 20,
@@ -135,34 +126,22 @@ const getStyles = (isDarkMode: boolean) =>
       padding: 20,
       gap: 20,
       borderRadius: 10,
-      // borderWidth: 2,
-      // borderColor: 'teal',
     },
     darkModeContainer: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      // borderWidth: 2,
-      // borderColor: 'purple',
     },
     darlkModeLeftSection: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,
-      // borderWidth: 2,
-      // borderColor: 'gray',
     },
     darkModeTextContainer: {
       display: 'flex',
       flexDirection: 'column',
-      // borderWidth: 2,
-      // borderColor: 'navy',
-    },
-    darkModeToggleContainer: {
-      // borderWidth: 2,
-      // borderColor: 'maroon',
     },
     recentActivitySectionContainer: {
       marginHorizontal: 20,
@@ -171,15 +150,11 @@ const getStyles = (isDarkMode: boolean) =>
       padding: 20,
       gap: 20,
       borderRadius: 10,
-      // borderWidth: 2,
-      // borderColor: 'olive',
     },
     recentActivityList: {
       display: 'flex',
       flexDirection: 'column',
       gap: 10,
-      // borderWidth: 2,
-      // borderColor: 'lime',
     },
   });
 
@@ -192,7 +167,7 @@ const ProfileScreen = () => {
   return (
     <View style={styles.profileScreen}>
       <View style={[styles.userSectionContainer, styles.borderGray]}>
-        <View testID="image container" style={styles.imageContainer}>
+        <View testID="image container">
           <Image
             style={styles.imageProfile}
             source={require('../../assets/images/mockProfile.jpg')}
@@ -213,7 +188,7 @@ const ProfileScreen = () => {
               styles.shareProfileButton,
               pressed && styles.buttonPressed,
             ]}>
-            <Icon name="share-social-outline" size={20} color="gray" />
+            <Icon name="share-social-outline" size={20} color="#F2C94C" />
             <Text style={styles.textSmall}>Share Profile</Text>
           </Pressable>
         </View>
@@ -221,7 +196,7 @@ const ProfileScreen = () => {
 
       <View style={[styles.movieDataSectionContainer]}>
         <View style={[styles.movieDataContainer, styles.borderGray]}>
-          <Icon name="star-outline" size={20} color="gray" />
+          <Icon name="star-outline" size={20} color="#F2C94C" />
           <Text style={[styles.textLarge, styles.textBold]}>127</Text>
           <Text
             style={[
@@ -233,7 +208,7 @@ const ProfileScreen = () => {
           </Text>
         </View>
         <View style={[styles.movieDataContainer, styles.borderGray]}>
-          <Icon name="heart-outline" size={20} color="gray" />
+          <Icon name="heart-outline" size={20} color="#F2C94C" />
           <Text style={[styles.textLarge, styles.textBold]}>23</Text>
           <Text
             style={[
@@ -245,7 +220,7 @@ const ProfileScreen = () => {
           </Text>
         </View>
         <View style={[styles.movieDataContainer, styles.borderGray]}>
-          <Icon name="pricetag-outline" size={20} color="gray" />
+          <Icon name="pricetag-outline" size={20} color="#F2C94C" />
           <Text style={[styles.textLarge, styles.textBold]}>8</Text>
           <Text
             style={[
@@ -262,19 +237,19 @@ const ProfileScreen = () => {
         <Text style={[styles.textLarge, styles.textBold]}>Settings</Text>
         <View style={styles.darkModeContainer}>
           <View style={styles.darlkModeLeftSection}>
-            <Icon name="sunny-outline" size={20} color="gray" />
+            <Icon name="sunny-outline" size={20} color="#F2C94C" />
             <View style={styles.darkModeTextContainer}>
-              <Text style={[styles.textSmall, styles.textBold]}>Dark Mode</Text>
-              <Text style={[styles.textSmall]}>Toggle dark theme</Text>
+              <Text style={[styles.textThemeButton, styles.textBold]}>Dark Mode</Text>
+              <Text style={[styles.textThemeButton]}>Toggle dark theme</Text>
             </View>
           </View>
-          <View style={styles.darkModeToggleContainer}>
+          <View>
             <Switch
               value={mockToggled}
               onValueChange={() => {
                 setMockToggled(!mockToggled);
               }}
-              trackColor={{false: '#ccc', true: '#4CAF50'}}
+              trackColor={{false: '#ccc', true: '#F2C94C'}}
               thumbColor={isDarkMode ? '#fff' : '#f4f3f4'}
               ios_backgroundColor="#ccc"
             />

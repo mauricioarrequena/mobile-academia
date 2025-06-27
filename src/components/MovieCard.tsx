@@ -9,12 +9,12 @@ import {
   ViewStyle,
 } from 'react-native';
 import AddToWishlist from './AddToWishlist';
-import {TMDB_IMAGES_BASE_URL} from '@env';
+import { TMDB_IMAGES_BASE_URL } from '@env';
 import RemoveToWishList from './RemoveToWishlist';
-import {Movie} from '../types/Movie';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../navigation/types';
+import { Movie } from '../types/Movie';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/types';
 
 type MovieCardProps = {
   movie: Movie;
@@ -27,9 +27,9 @@ type MovieCardProps = {
 const getStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
     movieItem: {
-        width: 110,
-        alignItems: 'center',
-        gap: 8,
+      width: 110,
+      alignItems: 'center',
+      gap: 8,
     },
     image: {
       width: 110,
@@ -39,10 +39,8 @@ const getStyles = (isDarkMode: boolean) =>
     },
     text: {
       textAlign: 'center',
+      fontFamily: 'Gilroy-SemiBold',
       color: isDarkMode ? '#E0E0E0' : '#212121',
-    },
-    textBold: {
-      fontWeight: 'bold',
     },
     wishlist: {
       position: 'absolute',
@@ -69,14 +67,14 @@ const MovieCard = ({
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('MovieDetail', {id: movie.id})}>
+      onPress={() => navigation.navigate('MovieDetail', { id: movie.id })}>
       <View style={containerStyle ?? styles.movieItem}>
         <Image
-          source={{uri: `${TMDB_IMAGES_BASE_URL}/w185${movie.poster_path}`}}
+          source={{ uri: `${TMDB_IMAGES_BASE_URL}/w185${movie.poster_path}` }}
           style={imageStyle ?? styles.image}
         />
         {showTitle && (
-          <Text style={[styles.text, styles.textBold]} numberOfLines={1}>
+          <Text style={styles.text} numberOfLines={1}>
             {movie.title ?? movie.name}
           </Text>
         )}

@@ -22,7 +22,7 @@ const getStyles = (isDarkMode: boolean) =>
     sectionTitle: {
       color: isDarkMode ? '#FFFFFF' : 'black',
       fontSize: 24,
-      fontWeight: 'bold',
+      fontFamily: 'Gilroy-SemiBold',
       marginBottom: 20,
     },
     columnWrapperStyle: {
