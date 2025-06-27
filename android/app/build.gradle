@@ -28,7 +28,6 @@ android {
         buildConfigField "boolean", "IS_HERMES_ENABLED", "true"
     }
 
-    // ✅ ✅ ✅ Updated signingConfigs section
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -46,7 +45,6 @@ android {
         }
     }
 
-    // ✅ ✅ ✅ Updated buildTypes.release to use your release keystore
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
