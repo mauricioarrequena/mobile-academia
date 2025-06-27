@@ -5,4 +5,7 @@ export type RootStackParamList = {
     endpoint: string;
     params: any;
   };
+  MovieDetail: {
+    id: number;
+  };
 };
