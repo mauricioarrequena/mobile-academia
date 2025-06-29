@@ -3,6 +3,23 @@
 ## About the Project
 A cross-platform mobile app built with React Native for Browse movies. The purpose of this app is to provide a simple and easy way to browse and search for movies. Built with the intention to provide accurate information about the movies in a centralized place.
 
+## Table of Contents
+* [Folder Structure](#folder-structure)
+* [Environment Variables](#environment-variables)
+* [Setup Instructions](#setup-instructions)
+    * [Prerequisites](#prerequisites)
+    * [Installation](#installation)
+    * [Installation (macOS Specific)](#installation-macos-specific)
+    * [Run on Android](#run-on-android)
+    * [Run on iOS](#run-on-ios)
+* [CI/CD Instructions](#cicd-instructions)
+* [TMDB API Integration](#tmdb-api-integration)
+* [Tech Stack](#tech-stack)
+* [Troubleshooting](#troubleshooting)
+* [Deployed Files](#deployed-files)
+* [Video Presentation](#video-presentation)
+
+
 ## Folder Structure
 You want to replace the spaces and tabs used for indentation with hyphens (-) in your folder structure, and still have it display correctly in your README.
 
@@ -45,32 +62,52 @@ Here's the chunk of your README with hyphens for indentation:
 -📁 ios
 -📁 node_modules
 -📁 src
---📁 assets
----📁 fonts
 --📁 components
----📄 CarouselHeader.tsx
+---📄 AddCollection.tsx
+---📄 AddToCollectionsModal.tsx
+---📄 AddToWishlist.tsx
+---📄 CollectionList.tsx
+---📄 CollectionListItem.tsx
 ---📄 Footer.tsx
 ---📄 Header.tsx
+---📄 Highlight.tsx
 ---📄 HomeBanner.tsx
 ---📄 Layout.tsx
----📄 Movies.tsx
----📄 MovieSection.tsx
----📄 TabBar.tsx
+---📄 MovieCard.tsx
+---📄 MovieRowSection.tsx
+---📄 MovieRowSectionHeader.tsx
+---📄 RemoveToWishlist.tsx
+---📄 TabBarFooter.tsx
+--📁 context
+---📄 WishlistContext.tsx
+--📁 database
+---📄 db.ts
 --📁 hooks
+---📄 useThemedStyles.ts
 ---📄 useTMDB.ts
+---📄 useTMDBById.ts
 --📁 navigation
----📄 AppNavigator.tsx
----📄 BottomTabs.tsx
+---📄 HomeStackNavigator.tsx
+---📄 MainNavigator.tsx
+---📄 ProfileStackNavigator.tsx
+---📄 RootNavigator.tsx
+--📄 types.ts
 --📁 screens
+---📄 CollectionsScreen.tsx
 ---📄 HomeScreen.tsx
+---📄 MovieDetail.tsx
 ---📄 ProfileScreen.tsx
 ---📄 SearchScreen.tsx
----📄 WishListScreen.tsx
+---📄 SectionScreen.tsx
+---📄 WishlistScreen.tsx
 --📁 services
+---📄 colors.ts
 --📁 theme
---📁 types
----📄 PopularMovie.ts
----📄 react-native-vector-icons.d.ts
+---📁 types
+----📄 Collection.ts
+----📄 Movie.ts
+----📄 react-native-sqlite-storage.d.ts
+----📄 react-native-vector-icons.d.ts
 -📄 .env
 -📄 .eslintrc.js
 -📄 .gitignore
@@ -161,11 +198,28 @@ npx react-native run-ios
 ## CI/CD Instructions
 Not yet configured.
 
+
+### TMDB API Integration
+
+This project leverages The Movie Database (TMDB) API to fetch comprehensive movie and TV show data. The TMDB API provides access to a vast database of information including movie titles, overviews, genres, release dates, ratings, cast and crew details, images, and much more.
+
+**Key features enabled by TMDB API:**
+
+* **Movie Listings:** Displaying popular, trending, and upcoming movies.
+* **Search Functionality:** Allowing users to search for specific movies or TV shows.
+* **Detailed Views:** Presenting in-depth information for individual titles.
+* **Image Assets:** Retrieving movie posters and backdrops.
+
+To use this application, you will need an API key from TMDB. Please ensure your `.env` file contains your TMDB API key as `TMDB_API_KEY`. You can obtain a key by registering for an account on the [TMDB website](https://www.themoviedb.org/documentation/api).
+
+
 ## Tech Stack
 
 * **React Native** + CLI
 * **React Navigation**
 * **The Movie Database (TMDB) API**
+* **SQLite**
+* **Async Storage**
 
 ## Troubleshooting
 If you encounter issues on iOS after installing dependencies, try the following:
@@ -179,3 +233,11 @@ bash
 cd ios
 bundle install
 bundle exec pod install
+
+## Deployed Files
+
+* **Deployed APK and AAB files:** [https://drive.google.com/drive/folders/1cyz7Jz416a6peg2BpTXqeFt9MA80Pgp4](https://drive.google.com/drive/folders/1cyz7Jz416a6peg2BpTXqeFt9MA80Pgp4)
+
+## Video Presentation
+
+* **Video Presentation:** [https://drive.google.com/drive/folders/13MODDuBbKJ2halTwYO_iAVkaPsWq3jzC?usp=drive_link](https://drive.google.com/drive/folders/13MODDuBbKJ2halTwYO_iAVkaPsWq3jzC?usp=drive_link)
